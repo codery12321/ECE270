@@ -282,8 +282,8 @@ To do this, create two 64-bit buses called valdisp and negvaldisp and a new 16-b
 Next, create a new always_comb block, and in it, assign ss accordingly: <br />
 
 - If val is negative (val[15] is 1), connect ss to `{lookupmsg[sel], 8'b0, 8'b01000000, negvaldisp[23:0]}.` Note the inclusion of 8'b01000000 - this is your minus sign, on the G segment of ss3!
-- Otherwise, connect ss to `{lookupmsg[sel], 8'b0, valdisp[31:0]}.`
-Finally, create an always_ff block clocked by scankey's strobe, and reset by rst. If rst is high, set sel to 0, otherwise:
+- Otherwise, connect ss to `{lookupmsg[sel], 8'b0, valdisp[31:0]}.` <br />
+Finally, create an always_ff block clocked by scankey's strobe, and reset by rst. If rst is high, set sel to 0, otherwise: <br />
 
 - If scankey's output is 5'b10000 (W is pressed), set sel to 3. (Pressing W should display thrust.)
 - If scankey's output is 5'b10001 (X is pressed), set sel to 2. (Pressing X should display fuel.)
