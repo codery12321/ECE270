@@ -304,38 +304,41 @@ There are lots of tedious details here, but the following examples should illust
 
 Reset the system (with 3-0-W), and type the following: <br />
 
-1 2 3 Y = 123 
-This will enter 123 into current, copy it into save, update show to 1 so that save is displayed on out. "123" should still be visible on the display. <br />
-4 5 6 = 456 <br />
-The instant that "4" is pressed, it will be shifted into previously zeroed current and show will be updated to display current on the out bus. The end result will be that "456" will be viewed on the display. <br />
-W = 579 <br />
-The math instance is always updating the result bus, and when the 'W' is pressed, the value of result will be copied into save, overwriting the previous value, and show will be updated to 1 to show the contents of the save register. The end result is that "579" should be shown on the display. (123 + 456 = 579). <br />
+- `1 2 3 Y = 123`
+  This will enter 123 into current, copy it into save, update show to 1 so that save is displayed on out. "123" should still be visible on the display. <br />
+- `4 5 6 = 456`
+  The instant that "4" is pressed, it will be shifted into previously zeroed current and show will be updated to display current on the out bus. The end result will be that "456" will be viewed on the display. <br />
+- `W = 579`
+  The math instance is always updating the result bus, and when the 'W' is pressed, the value of result will be copied into save, overwriting the previous value, and show will be updated to 1 to show the contents of the save register. The end result is that "579" should be shown on the display. (123 + 456 = 579). <br />
+
 Reset the system (with 3-0-W), and type the following: <br />
 
-`4 Y 1 W W W W = 8 `
-This will cause 4 to be loaded into current. The 'Y' will cause it to be moved into save. The value 1 will go into current, and the 'W' will add 4 + 1 = 5. Each subsequent 'W' will repeat the previous operation (+ 1). The end result should be that 8 is shown. <br />
-`Z 1 W W W = 5 `
-Since 'W' was the last thing pressed, show is set to 1. When 'Z' is pressed next, the value of current is not copied into save. Instead, the value of save remains the same, and the following '1' is shifted into the now zero current. The following 'W' will cause the current value to be subtracted from save. The new result will be copied into save. Because 'W' is pressed three times, the operation is repeated three times. The end result is that 5 is shown on the display.
-This example illustrates standard behavior for classic calculators. Pressing '=' repeats the last-requested operation with the last-entered operand on a saved value. If you have an old calculator (or some kinds of calculator programs), you should see the same behavior. Our "equal" sign is the 'W' button, and you will find that repeatedly pressing 'W' will be helpful for testing the calculator design.
+- `4 Y 1 W W W W = 8 `
+  This will cause 4 to be loaded into current. The 'Y' will cause it to be moved into save. The value 1 will go into current, and the 'W' will add 4 + 1 = 5. Each subsequent 'W' will repeat the previous operation (+ 1). The end result should be that 8 is shown. <br />
+- `Z 1 W W W = 5 `
+  Since 'W' was the last thing pressed, show is set to 1. When 'Z' is pressed next, the value of current is not copied into save. Instead, the value of save remains the same, and the following '1' is shifted into the now zero current. The following 'W' will cause the current value to be subtracted from save. The new result will be copied into save. Because 'W' is pressed three times, the operation is repeated three times. The end result is that 5 is shown on the display.
+This example illustrates standard behavior for classic calculators. Pressing '=' repeats the last-requested operation with the last-entered operand on a saved value. If you have an old calculator (or some kinds of calculator programs), you should see the same behavior. Our "equal" sign is the 'W' button, and you will find that repeatedly pressing 'W' will be helpful for testing the calculator design. <br />
+
 Reset the system (with 3-0-W), and type the following:
 
-1 Z 1 W W = FFFFFFFF
-This will cause the value 1 to be entered, 1 subtracted, and then 1 subtracted again. In 32-bit two's-complement arithmetic, 0 - 1 is 32'b11111111111111111111111111111111. In hexadecimal, this is shown as FFFFFFFF.
+- `1 Z 1 W W = FFFFFFFF`
+  This will cause the value 1 to be entered, 1 subtracted, and then 1 subtracted again. In 32-bit two's-complement arithmetic, 0 - 1 is 32'b11111111111111111111111111111111. In hexadecimal, this is shown as FFFFFFFF.
+
 Reset the system (with 3-0-W), and type the following:
 
-`C Y 1 W W W W = 10 `
-This will cause the value C to be entered, and 1 added four times. It should display 10. (No, this is not a typo. Remember: It's hexadecimal. C + 4 = 10)
-`Y 1 0 W W W W W W W = 80 `
-This will replace the value in current with 10, and repeat the previously selected operation (addition) seven times. In this case, we're not starting a new operation. We're just continuing the old operation with a new operand. It should display 80.
-Test these changes carefully. It's not a lot of typing, but it's a great deal of reading and understanding. Think about the flip-flops and next-state mechanisms that are created when you compile a design like this. If you can imagine every expression as a collection of multiplexers and flip-flops, you can understand how it is manifested as an FPGA implementation.
+- `C Y 1 W W W W = 10 `
+  This will cause the value C to be entered, and 1 added four times. It should display 10. (No, this is not a typo. Remember: It's hexadecimal. C + 4 = 10)
+- `Y 1 0 W W W W W W W = 80 `
+  This will replace the value in current with 10, and repeat the previously selected operation (addition) seven times. In this case, we're not starting a new operation. We're just continuing the old operation with a new operand. It should display 80.
+Test these changes carefully. It's not a lot of typing, but it's a great deal of reading and understanding. Think about the flip-flops and next-state mechanisms that are created when you compile a design like this. If you can imagine every expression as a collection of multiplexers and flip-flops, you can understand how it is manifested as an FPGA implementation. <br />
 
-When your design works, copy only the updated digits module into the text box for step 2 in the postlab submission.
+When your design works, copy only the updated digits module into the text box for step 2 in the postlab submission. <br />
 
 ## Step 3: Improving the interface one step further
 
 One more unrealistic aspect of the calculator is that you can continue entering digits even after all eight displays are filled. It should not be possible to continue pressing buttons and scrolling the number once eight digits have been entered. Correcting this problem is a little more difficult than the others, so we left it for last. Once again, we need to add more bits of state to the design. These will be updated by the always_ff block. <br />
 
-Create an eight-bit logic signal named full that will be used as an indicator of which digits have non-zero values in them. It will be updated within the always_ff block, and it will be used to decide how actions given by the in signal should be interpreted. <br />
+- Create an eight-bit logic signal named full that will be used as an indicator of which digits have non-zero values in them. It will be updated within the always_ff block, and it will be used to decide how actions given by the in signal should be interpreted. <br />
 Because full is modified by the always_ff block, you should be sure to initialize it to zero in the reset section.  <br />
 
 The modifications to make to the always_ff block actions for in from the previous step are as follows. We'll list the easy ones first: <br />
@@ -346,54 +349,56 @@ The modifications to make to the always_ff block actions for in from the previou
 - **5'b0????:** (any digit, 0-F) We want to shift one new digit into current so we should shift a '1' into the full register. It acts as a shift register. We need to be careful not to shift it if the number we enter is a leading zero. e.g., there should be no restriction to you entering the number 0000000012345678. The leading zeros should not matter.
 
 There are two cases here:  <br />
-For the case where show is initially 1, we're starting entry of a new number after selecting an operation (such as addition). Set full to 8'b00000001 only if the new digit is not zero. In this case any new digit (even zero) can be shifted into the current register.  <br />
-For the case where show is initially 0, we're either starting to enter the first number of an expression or continuing to enter a number that's already started. Again, if we start off entering zero digits, we want to ignore them, but we don't want to ignore zero digits if there are non-zero leading digits (e.g., 1000). We should only shift '1' bits into full if at least one digit has been shifted in (full[0] == 1) or if the new digit is non-zero (in != 0). Here is where we need to make sure we don't allow more than 8 digits. Do so something like this: <br />
-```
-                  if full is not 8'b11111111:
-                      shift the new digit into current
-                      if full[0] == 1 or in != 0:
-                          full <= {full[6:0],1'b1}
-```              
-There are many ways of expressing this more succinctly. You can certainly come up with one if you give it a few minutes of thought. <br />
+- For the case where show is initially 1, we're starting entry of a new number after selecting an operation (such as addition). Set full to 8'b00000001 only if the new digit is not zero. In this case any new digit (even zero) can be shifted into the current register.  <br />
+- For the case where show is initially 0, we're either starting to enter the first number of an expression or continuing to enter a number that's already started. Again, if we start off entering zero digits, we want to ignore them, but we don't want to ignore zero digits if there are non-zero leading digits (e.g., 1000). We should only shift '1' bits into full if at least one digit has been shifted in (full[0] == 1) or if the new digit is non-zero (in != 0). Here is where we need to make sure we don't allow more than 8 digits. Do so something like this: <br />
+  ```
+                    if full is not 8'b11111111:
+                        shift the new digit into current
+                        if full[0] == 1 or in != 0:
+                            full <= {full[6:0],1'b1}
+  ```              
+  There are many ways of expressing this more succinctly. You can certainly come up with one if you give it a few minutes of thought. <br />
 - **5'b10001:** ('X' button) We want to backspace by one digit. This means we should shift the full register right by one position and make the new leftmost bit 0. Do this only if full is not already zero.
 
 ## Examples
 
-Once again, here are some examples to make sure you implement this correctly. We're going to do the same operations when we test your module.
+Once again, here are some examples to make sure you implement this correctly. We're going to do the same operations when we test your module. <br />
 
 Reset the system (with 3-0-W), and type the following:
 
-0 0 0 0 0 0 0 1 2 3 4 5 6 7 8 9 9 9 = 12345678
-The leading zeros should be ignored, but 12345678 should appear. The further entry of numbers should not be permitted, so the 9 9 9 will be ignored.
-X X X X X = 123
-This backspace by five digits and show 123.
-8 7 6 5 4 3 2 1 = 12387654
-This will permit five new digits (87654) to be shifted in. Subsequent digits (321) should be ignored. The end result is that 12387654 is shown.
+- `0 0 0 0 0 0 0 1 2 3 4 5 6 7 8 9 9 9 = 12345678`
+  The leading zeros should be ignored, but 12345678 should appear. The further entry of numbers should not be permitted, so the 9 9 9 will be ignored.
+- `X X X X X = 123`
+  This backspace by five digits and show 123.
+- `8 7 6 5 4 3 2 1 = 12387654`
+  This will permit five new digits (87654) to be shifted in. Subsequent digits (321) should be ignored. The end result is that 12387654 is shown.
+
+Reset the system (with 3-0-W), and type the following: <br />
+
+- `0 7 0 Y = 70`
+  Just set it up with an initial number and prepare to add a second one. The value 70 should be displayed.
+- `0 0 0 0 0 0 0 0 1 2 3 4 5 6 7 8 9 9 9 = 12345678`
+  Check that entry of the second number ignores leading zeros and accepts only eight new digits.
+- `W = 123456E8`
+  Make sure that the two hexadecimal numbers (70) and (12345678) are added properly. The result, 123456E8 should be shown.
+
 Reset the system (with 3-0-W), and type the following:
+- `0 1 Y 0 1 W W W = 4`
+  Enter 1 and add 1 to it 3 times to display 4.
+- `X X X X W W W W = 8`
+  Make sure that backspace does not affect the value in current after pressing 'W' in the previous step.
 
-0 7 0 Y = 70
-Just set it up with an initial number and prepare to add a second one. The value 70 should be displayed.
-0 0 0 0 0 0 0 0 1 2 3 4 5 6 7 8 9 9 9 = 12345678
-Check that entry of the second number ignores leading zeros and accepts only eight new digits.
-W = 123456E8
-Make sure that the two hexadecimal numbers (70) and (12345678) are added properly. The result, 123456E8 should be shown.
-Reset the system (with 3-0-W), and type the following:
+Whew... Lots of details and examples. <br />
 
-0 1 Y 0 1 W W W = 4
-Enter 1 and add 1 to it 3 times to display 4.
-X X X X W W W W = 8
-Make sure that backspace does not affect the value in current after pressing 'W' in the previous step.
-Whew... Lots of details and examples.
+Again, this system is just flip-flops and next-state equations implemented with multiplexers. As more and more state logic is added to the system, it becomes more difficult to see those flip-flops and muxes, but you should still try. The better you understand the hardware that is produced for a Verilog specification, the easier it will be for you to get the result you ask for.  <br />
 
-Again, this system is just flip-flops and next-state equations implemented with multiplexers. As more and more state logic is added to the system, it becomes more difficult to see those flip-flops and muxes, but you should still try. The better you understand the hardware that is produced for a Verilog specification, the easier it will be for you to get the result you ask for.
+Test your design thoroughly. Check the examples carefully. When you are satisfied it is working correctly, copy and paste only the digits module into the text box for step 3 in the postlab submission. <br />
 
-Test your design thoroughly. Check the examples carefully. When you are satisfied it is working correctly, copy and paste only the digits module into the text box for step 3 in the postlab submission.
+## Step 4: Just for fun
 
-Step 4: Just for fun
+It may not be your idea of "fun", but you're at the point where you can try something interesting now. Replace the functionality for 'X' in your digits always_ff block with the same mechanisms for 'Y' and 'Z' except assign op <= 2. In the math module, add another entry to the case statement for when op is 2: <br />
 
-It may not be your idea of "fun", but you're at the point where you can try something interesting now. Replace the functionality for 'X' in your digits always_ff block with the same mechanisms for 'Y' and 'Z' except assign op <= 2. In the math module, add another entry to the case statement for when op is 2:
-
-          2: r = a * b;
+          `2: r = a * b;`
 
 After doing this, you won't be able to backspace entered numbers anymore, but you will have a calculator that can multiply 32-bit hexadecimal numbers. Notice that it takes longer to compile your design in the simulator now. You might also try replacing the '*' with '/' to make a calculator that can divide a 32-bit hexadecimal number by another. This will take a long time to compile—so long that the simulator might give up waiting for it to finish and just call it an error.
 >Questions or comments about the course and/or the content of these webpages should be sent to the Course Webmaster. All the materials on this site are intended solely for the use of students enrolled in ECE 270 at the Purdue University West Lafayette Campus. Downloading, copying, or reproducing any of the copyrighted materials posted on this site (documents or videos) for anything other than educational purposes is forbidden.
