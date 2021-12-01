@@ -130,7 +130,7 @@ And now you have something that looks like a calculator display. That's enough p
 
 # ECE 270 Lab Experiment 11: Simple Hexadecimal Calculator <br />
 
-##Introduction
+## Introduction
 
 Through the course so far, you have mostly dealt with the update of only one signal in an always_ff block. That signal may have been a bus—and, therefore, a group of signals—but you have thought of it as one group of data. Now it is time to consider the update of multiple data in the same always_ff block. We will do so in the context of starting to use arithmetic operations. Although the topic of recent lectures has been the implementation of arithmetic, we'll defer practicing that for future assignments. Instead, we'll use the built-in Verilog arithmetic operators (like '+', '-', '*', '/', and '%'). The important part of this lab will be to gain experience in construction of more complicated, composite, modular state machines. <br />
 
@@ -167,13 +167,11 @@ In the meantime, you can still add extra outputs to a module and connect them to
 
 For instance, if you wanted to look at an 8-bit value in an instance of the digits module, you could define it as: <br />
 ```
-
           module digits(input logic [4:0] in, input clk, reset,
                         output logic [31:0] out,
                         output logic [7:0] peek);
-          ...
           endmodule
-      ```
+```
 Then, in the instantiation in top, you could then say: <br />
 ```
           digits d1 (.in(keycode), .out(data), .clk(strobe), .reset(reset),
