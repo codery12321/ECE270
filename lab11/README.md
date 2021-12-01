@@ -185,7 +185,6 @@ It is important to understand that this is only possible because we use name-bas
 
 You may recall some experience with generating multiple signals (results) with a single always_comb block, although you needed to be careful of using a construct like this: <br />
 ```
-
           always_comb
             if (pb[0] == 0)
               red = pb[1];
@@ -234,7 +233,9 @@ Now modify the casez (or nested-if) statement you used to select the activity to
   - Assign to op the value 1 to indicate that a subtraction is being requested.
   - Assign to save the value of current.
 - **5'b10000:** This is the 'W' button which will be used to represent the '=' sign. For this operation, assign to current the value of result. <br />
+ <br />
 **You used "<=" for all of those assignments, right?** <br />
+ <br />
 Create one more new module named math. Make it look like this:
 ```
           module math(input logic [3:0] op,
@@ -257,7 +258,7 @@ Now, the result bus is always being driven with the result of the selected arith
 
 At this point, you've built everything needed to have a working calculator. Let's try it. Enter the following: <br />
 
-          1 2 3   Y   X X X   4 5 6   W <br />
+          1 2 3   Y   X X X   4 5 6   W
 
 The "1 2 3" enters hexadecimal number 12'h123 into current. The "Y" indicates an addition will happen, and it should store a 0 into op and copy the value in current into the save register. <br />
 
@@ -303,7 +304,7 @@ There are lots of tedious details here, but the following examples should illust
 
 Reset the system (with 3-0-W), and type the following: <br />
 
-1 2 3 Y = 123 <br />
+1 2 3 Y = 123 
 This will enter 123 into current, copy it into save, update show to 1 so that save is displayed on out. "123" should still be visible on the display. <br />
 4 5 6 = 456 <br />
 The instant that "4" is pressed, it will be shifted into previously zeroed current and show will be updated to display current on the out bus. The end result will be that "456" will be viewed on the display. <br />
