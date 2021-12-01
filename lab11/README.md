@@ -56,7 +56,7 @@ This system is called a two-flip-flop synchronizer and it is useful for more tha
 Add the two-flip-flop delay between the strobe output and the always_ff block. Get the satisfaction of seeing the system work as it was intended. You should be able to press any of the '0' through 'F' buttons and have it appear on the right digit of the display. Test your system well. Make certain that you have exactly two flip-flops between strobe and the always_ff block that updates the scroll shift register. Also make certain that the reset signal clears both flip-flops to zero. The two-flip-flop synchronizer is, effectively, a two-bit shift-register with an asynchronous clear. (See lecture module 3-H for more details and examples for synchronizers.)
 
 
-**Hint:** Are you having trouble with the concept of a two-flip-flop synchronizer? Think back to the concept of a ring counter. Can you build an 8-bit ring counter, initialize it to 8'b00000001, clock it with hz100, and connect it to right[7:0] to visualize it? Sure you can.
+**Hint:** Are you having trouble with the concept of a two-flip-flop synchronizer? Think back to the concept of a ring counter. Can you build an 8-bit ring counter, initialize it to 8'b00000001, clock it with hz100, and connect it to right[7:0] to visualize it? Sure you can. <br />
 Now, reduce that to a two-bit shift register. Clock it with hz100, but don't reset it. Don't connect it to right[7:0] either. Instead of setting the next state of bit 0 to the most significant bit, set it to the strobe output of the enc16to4 instance. Finally, use bit 1 of the shift register as the signal that you use to clock the always_ff that updates the scroll bus. That's a two-flip-flop synchronizer.
 
 
