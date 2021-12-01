@@ -73,3 +73,42 @@ To implement this module, use the basic recipe shown on page 21 of lecture 2-i, 
 To test your design, press any of the push buttons from 'F' – '0'. You should see the binary-encoded result on the four rightmost red LEDs. When any of those sixteen buttons are pressed, the green center LED should also light up. If you press two or more buttons simultaneously, the higher value button will determine the value output from the encoder. In a later exercise, you will have a more intuitive way of testing your encoder. <br />
 
 When you have tested your design well, submit the file (including modules top and prienc16to4) below. <br />
+
+# ECE 270 Lab Experiment 6: Combinational Building Blocks
+##Introduction
+An important part of hardware design is to be able to encapsulate and reuse code as ‘modules’ — specifically in Verilog. You have already learned about examples of such hardware modules in lecture, such as multiplexers, encoders and decoders. In this lab, you will practice implementing such building blocks and integrate them into an overall design. You will practice building a multiplexer with hardware to solidify your knowledge about this system in particular.
+
+## Step 1: Implement a seven-segment decoder submodule in Verilog
+
+Run the ece270-setup command again by double-clicking the shortcut on your desktop. A lab06 folder should now be added to the ece270 folder in your home directory. Inside it, open top.sv, and write a new module below the top module with the following specifications: <br />
+
+From your prelab, copy the prienc16to4 module to your top.sv file, as you will use it to simplify testing for your ssdec module. <br />
+
+- Module name: ssdec
+- Module instance name: sd
+  - This is very important! The module and instance names must match!
+- Module ports:
+  - in: 4-bit input port
+  - enable: 1-bit input port
+  - out: 7-bit output port
+- Top module instance connections:
+  - in: Connected to pb[3:0]
+  - enable: Connected to 1'b1
+  - out: Connected to ss0[6:0]
+
+The module instance must start with:  <br />
+`ssdec sd (...`  <br />
+
+Follow the development shown on pages 11–26 of lecture 2-H to build a seven-segment display decoder. This module has four data inputs and a 7-bit output. It configures the outputs so that a four bit binary value is displayed as a hexadecimal digit on a 7-segment display. The third port, enable, determines if any of the outputs are asserted. If enable is not asserted, the output should remain off. This is a convenient way to turn off the entire digit if needed. <br />
+
+The 7-bit output, when connected to one of ss0, ss1... ss6 or ss7 must look like this for the corresponding value of the input: <br />
+
+     _         _    _         _    _    _    _    _    _         _         _    _
+      | |    |   _|   _|  |_|  |_   |_     |  |_|  |_|  |_|  |_   |     _|  |_   |_  
+      |_|    |  |_    _|    |   _|  |_|    |  |_|    |  | |  |_|  |_   |_|  |_   |   
+
+Once you have written the submodule and instantiated it in the top module with the connections as explained above, test your design. Run "make cram" as you did for lab 4, correct any errors, and observe the behavior on the FPGA. Press any of the push buttons from 'F' – '0'. You should see the corresponding hexadecimal digit on the rightmost seven-segment display. <br />
+
+Once that you have verified that your design is working for all combinations of pb[3:0], you can connect the input of your ssdec to the output of the priority encoder you wrote for your prelab (prienc16to4). Also connect the ssdec enable port to the strobe output of the decoder. (If you're confused about how to connect the ports of two separate instances, recall how to use an intermediate signal/bus to connect the ports). This will allow us to simply press one button (0 through F) to see the digit on the display. <br />
+
+Demonstrate your new ssdec module to your TA to get checked off. Show that pressing 0 shows 0 on ss0, 1 shows 1, 2 shows 2, and so on. <br />
