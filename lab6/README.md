@@ -97,13 +97,13 @@ From your prelab, copy the prienc16to4 module to your top.sv file, as you will u
   - out: Connected to ss0[6:0]
 
 The module instance must start with:  <br />
-`ssdec sd (...`  <br />
+`ssdec sd (...`
 
 Follow the development shown on pages 11–26 of lecture 2-H to build a seven-segment display decoder. This module has four data inputs and a 7-bit output. It configures the outputs so that a four bit binary value is displayed as a hexadecimal digit on a 7-segment display. The third port, enable, determines if any of the outputs are asserted. If enable is not asserted, the output should remain off. This is a convenient way to turn off the entire digit if needed. <br />
 
 The 7-bit output, when connected to one of ss0, ss1... ss6 or ss7 must look like this for the corresponding value of the input: <br />
 
-     _         _    _         _    _    _    _    _    _         _         _    _
+       _         _    _         _    _    _    _    _    _         _         _    _
       | |    |   _|   _|  |_|  |_   |_     |  |_|  |_|  |_|  |_   |     _|  |_   |_  
       |_|    |  |_    _|    |   _|  |_|    |  |_|    |  | |  |_|  |_   |_|  |_   |   
 
