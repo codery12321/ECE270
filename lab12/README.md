@@ -4,7 +4,7 @@
 Construct a half-adder module. The module should be named ha. It should have two single-bit inputs named a and b. It should have two single-bit outputs named s (sum) and co (carry-out).  <br />
 
 You can instantiate and test the half-adder module with the following: <br />
-  `ha h1(.a(pb[0]), .b(pb[1]), .s(right[0]), .co(right[1]));`
+  `ha h1(.a(pb[0]), .b(pb[1]), .s(right[0]), .co(right[1]));`  <br />
 Include this module in the text box at the bottom of the page. <br />
 
 ## Step (2): A full adder built from two half-adders [2 points]
@@ -12,7 +12,7 @@ Construct a full adder by instantiating two of the ha half-adder modules you des
 The full adder module should be named faha. It should have three input ports named a, b, and ci (carry-in). It should have two output ports named s (sum) and co. <br />
 
 You can instantiate and test the full-adder module with the following: <br />
-  `faha f1(.a(pb[0]), .b(pb[1]), .ci(pb[2]), .s(right[0]), .co(right[1]));`
+  `faha f1(.a(pb[0]), .b(pb[1]), .ci(pb[2]), .s(right[0]), .co(right[1]));` <br />
  <br /> Make sure that it satisfies the following truth table: <br />
 ```
 a   b   ci  co  s
@@ -32,7 +32,7 @@ Construct a full adder by writing dataflow expressions for the outputs or by con
 The full adder module should be named fa. It should have three input ports named a, b, and ci (carry-in). It should have two output ports named s (sum) and co.  <br />
 
 You can instantiate and test the full-adder module with the following: <br />
-  `fa f1(.a(pb[0]), .b(pb[1]), .ci(pb[2]), .s(right[0]), .co(right[1]));`
+  `fa f1(.a(pb[0]), .b(pb[1]), .ci(pb[2]), .s(right[0]), .co(right[1]));` <br />
 Make sure that it satisfies the truth table shown in the previous question.   <br />
 
 Include this module in the text box at the bottom of the page.  <br />
@@ -41,7 +41,7 @@ Construct a four-bit full adder by creating four instances of the fa module you 
 This four-bit full adder module should be named fa4. Inside of this module, you should create four instances of the fa module with the carry-out of each one connected to the carry-in of the next most significant adder. It should have two four-bit input ports named a and b, and a single-bit input named ci (carry-in). It should have a four-bit output port named s (sum) and a single bit output port named co (carry-out). <br />
 
 You can instantiate and test the full-adder module with the following: <br />
-  `fa4 f1(.a(pb[3:0]), .b(pb[7:4]), .ci(pb[19]), .s(right[3:0]), .co(right[4]));`
+  `fa4 f1(.a(pb[3:0]), .b(pb[7:4]), .ci(pb[19]), .s(right[3:0]), .co(right[4]));` <br />
 so that the '3'...'0' buttons represent a four-bit input operand, the '7'...'4' buttons represent the second four-bit input operand, and the 'Z' button is the carry-in. The right[3:0] show the sum, and the right[4] shows the carry-out.  <br />
 
 Try testcases such as the following: <br />
@@ -60,7 +60,7 @@ Construct an eight-bit carry look-ahead adder by eight instances of the ha modul
 This eight-bit carry look-ahead adder module should be named cla8. It should have two eight-bit input ports named a and b, and a single-bit input named ci (carry-in). It should have an eight-bit output port named s (sum) and a single bit output port named co (carry-out).
 
 You can instantiate and test the adder module with the following: <br />
-`  cla8 cl1(.a(pb[7:0]), .b(pb[15:8]), .ci(pb[19]), .s(right[7:0]), .co(red));`
+`  cla8 cl1(.a(pb[7:0]), .b(pb[15:8]), .ci(pb[19]), .s(right[7:0]), .co(red));` <br />
 so that the '7'...'0' buttons represent a eight-bit input operand, the 'F'...'8' buttons represent the second eight-bit input operand, and the 'Z' button is the carry-in. The right[7:0] show the sum, and the center red LED shows the carry-out.  <br />
 
 We'll let you come up with your own testcases, but test it well and include this module in the text box at the bottom of the page.  <br />
@@ -70,7 +70,7 @@ Construct an eight-bit adder/subtracter that instantiates the cla8 adder you con
 This module should be named addsub8. It should have two eight-bit input ports named a and b, and a single-bit input named op to specify whether the operation is (0) addition of A+B or (1) subtraction of A-B. It should have an eight-bit output port named s (sum) and a single bit output port named co (carry-out). <br />
 
 You can instantiate and test this module with the following:
-  `addsub8 as1(.a(pb[7:0]), .b(pb[15:8]), .op(pb[18]), .s(right[7:0]), .co(red));`
+  `addsub8 as1(.a(pb[7:0]), .b(pb[15:8]), .op(pb[18]), .s(right[7:0]), .co(red));` <br />
 so that the '7'...'0' buttons represent a eight-bit input operand, the 'F'...'8' buttons represent the second eight-bit input operand, and the 'Y' button specifies the operation. The right[7:0] show the sum, and the center red LED shows the carry-out.  <br />
 
 Here are some example testcases: <br />
