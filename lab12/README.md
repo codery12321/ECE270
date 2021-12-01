@@ -14,9 +14,9 @@ The full adder module should be named faha. It should have three input ports nam
 You can instantiate and test the full-adder module with the following: <br />
 
   `faha f1(.a(pb[0]), .b(pb[1]), .ci(pb[2]), .s(right[0]), .co(right[1]));`
-Make sure that it satisfies the following truth table: <br />
+ <br /> Make sure that it satisfies the following truth table: <br />
 ```
-a b ci co s
+a   b   ci  co  s
 0	0	0		0	0
 0	0	1		0	1
 0	1	0		0	1
@@ -158,4 +158,4 @@ For this example, the 7-segment displays should show 9999, which is the ten's co
 
 Test it thoroughly, and include this module in the text box at the bottom of the page.
 
-You might also try incorporating some of these constructs into the calculator you built for lab 11. That's what we did in previous semesters for lab 12. 
+You might also try incorporating some of these constructs into the calculator you built for lab 11. That's what we did in previous semesters for lab 12.
