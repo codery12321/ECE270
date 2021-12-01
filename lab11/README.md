@@ -126,4 +126,4 @@ Similarly, ss6 is enabled for any 1 bits in data[31:24], ss5 is enabled for any 
 
 When you are finished, copy and paste only the top module into the text box below. <br />
 
-And now you have something that looks like a calculator display. That's enough preparation for the lab experiment. And now you have something that looks like a calculator display. That's enough preparation for the lab experiment.
+And now you have something that looks like a calculator display. That's enough preparation for the lab experiment. 
