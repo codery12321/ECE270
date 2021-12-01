@@ -62,3 +62,68 @@ Now, reduce that to a two-bit shift register. Clock it with hz100, but don't res
 
 
 When you have completed it, copy and paste only the top module into the text box below.
+
+## Step 2: Design a special register [10 points]
+
+Now that you have a reliable means of key entry, design a system that looks like this:
+[picture for digits system](digits.png) <br />
+
+The **digits** module should do the following things:
+
+- **reset** is an asynchronous reset. As long as it is asserted, the out bus will be 32'b0.
+- **clk** tells the module to look at the five-bit in bus, and do something with it.
+- **in** is a five-bit bus that causes the following things to happen to the out bus for the following values:
+  - **5'b00000 - 5'b01111:** Shift the value of out left by four bits, and set the lower four bits of out to the lower four bits of in. This is just implementing the shift mechanism as you've seen before.
+  - **5'b10000:** Clear the value of out to zero.
+  - **5'b10001:** Erase the last-entered digit of out by shifting it right by four bits and setting the most significant four bits to zero.
+  - **5'b10010:** Add one to the 32-bit value of out. You may use the '+' operator for this. Go ahead. It's easy:
+	`out <= out + 1;`
+  - **5'b10011:** Subtract one from the 32-bit value of out. You may use the '-' operator for this. It's also easy:
+	`out <= out - 1;`
+  All of these operations can be implemented by creating next-state logic for the system, and then assigning that to out on the rising edge of clk, or create nested "if"s or a "case" statement in the always_ff block that implements the state update for out. Using the '+' and '-' operators makes things easy for the sake of creating this sequential system. We'll study the mechanics of arithmetic in detail in the next homework and next lab. <br />
+
+**Hint:** The out bus is just a register whose next state is determined by the value of in on the next clock. The easiest way to implement the next-state logic is with a casez block. The digits '0' - 'F' are represented with the wildcard 5'b0????.
+
+
+Put the following statements into the **top** module to test the **digits** module:
+```
+  logic [4:0] keycode;
+  logic strobe;
+  scankey sk1 (.clk(hz100), .rst(reset), .in(pb[19:0]), .strobe(strobe), .out(keycode));
+  logic [31:0] data;
+  digits d1 (.in(keycode), .out(data), .clk(strobe), .reset(reset));
+  ssdec s0(.in(data[3:0]),   .out(ss0[6:0]), .enable(1'b1));
+  ssdec s1(.in(data[7:4]),   .out(ss1[6:0]), .enable(1'b1));
+  ssdec s2(.in(data[11:8]),  .out(ss2[6:0]), .enable(1'b1));
+  ssdec s3(.in(data[15:12]), .out(ss3[6:0]), .enable(1'b1));
+  ssdec s4(.in(data[19:16]), .out(ss4[6:0]), .enable(1'b1));
+  ssdec s5(.in(data[23:20]), .out(ss5[6:0]), .enable(1'b1));
+  ssdec s6(.in(data[27:24]), .out(ss6[6:0]), .enable(1'b1));
+  ssdec s7(.in(data[31:28]), .out(ss7[6:0]), .enable(1'b1));
+```
+
+When the system is started (or reset), the display should show eight zeros on the seven-segment LEDs. When a number button is pressed, the new digit should appear on right display. Each new digit will slide the original digits to the left. <br />
+
+When the 'W' button is pressed, it should clear all the digits to zero. <br />
+
+When the 'X' button is pressed, it erase the digit on the right by sliding all of the digits to the right. <br />
+
+When the 'Y' button is pressed, the entire 8-digit, 32-bit hexadecimal value should be incremented by one. Try entering the value FFFFFFFF and pressing the 'Y' button. It should show 00000000. <br />
+
+When the 'Z' button is pressed, the entire 8-digit, 32-bit hexadecimal value should be decremented by one. Try entering the value 00000000 and pressing the 'Z' button. It should show FFFFFFFF. <br />
+
+When your system works, copy and paste only the digits module into the text box below. <br />
+
+## Step 3: Don't show the leading zeros [10 points]
+
+Change the statements provided for the top module to test the digits module in step 3. Modify them so that if a four-bit chunk of the data is zero, and all of the higher-significant four-bit chunks is also zero, do not display the digit. Do this by turning off the enable input of the appropriate ssdec. <br />
+
+You should always leave the least-significant display (ss0) enabled at all times. This way, if the value of data is 00000000 (hexadecimal), then it will show only 0. The first time a digit is entered, that single zero will be replaced by the new value. <br />
+
+**Hint:** It is not necessary to create lots of logical expressions to implement this. Use a Verilog reduction operator. (See lecture module 3-E, page 18) For instance, the ss7 digit should be enabled if any of the data[31:28] bits are 1. What is a succinct way of saying data[31] | data[30] | data[29] | data[28] ? Use the reduction operator for OR.
+Similarly, ss6 is enabled for any 1 bits in data[31:24], ss5 is enabled for any 1 bits in data[31:20], and so on.
+
+
+When you are finished, copy and paste only the top module into the text box below. <br />
+
+And now you have something that looks like a calculator display. That's enough preparation for the lab experiment. And now you have something that looks like a calculator display. That's enough preparation for the lab experiment.
