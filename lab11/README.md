@@ -27,7 +27,7 @@ First, a couple of implementation notes about the green text above:
 2. When creating instances enc16to4 and ssdec, all the port connects are made name-based rather than order-based. We didn't tell you what order to arrange the ports of your modules, and you don't know the order of the ports in the modules we use to grade your work. Always use name-based port connection when you create instances of modules that you are not submitting.
 Back to the original topic... <br />
 
-##### **Try it**
+#### **Try it**
 
 Once you've implemented this design in the simulator, try it. The first button you should press is '0', and it works great! The second button you should press is '1', and ... you get another zero??? The third button you should press is '2', and ... still zero. Actually, every one of the buttons from '0' to 'F' puts a new zero into the display. <br />
 
@@ -38,7 +38,7 @@ The enc16to4 module is combinational. When one of the inputs changes, the out an
 This doesn't work. <br />
 
 
-##### **Add a delay**
+#### **Add a delay**
 
 We could make this work if we could add a delay between the strobe output of the encoder and the clock of the always_ff block. There is no such thing as a "delay" gate, so we'll have to construct a way to make a long enough delay that the clock is guaranteed to arrive after the ss[6:0] signal is stable is set to the pattern corresponding to the button pressed.
 
@@ -51,7 +51,7 @@ There are two reasons why we need more than a single flip-flop to produce a reli
 - With only one flip-flop, there is a small chance that the strobe output will go high just before the hz100 clock goes high—possibly so close that it is output on the flip-flop's q output before the key has propagated through the ssdec instance... which means, effectively, there is no strobe delay. Having two flip-flops means that there will be at least one hz100 period between strobe going high and the clk line being driven high. Surely 1/100th of a second is enough of a delay.
 - There is a small chance that strobe will go high so close before the rising edge of hz100 that it will result in a setup violation for the flip-flop. This means that the flip-flop output will be metastable and oscillate. We want to use that output as the clock input for the scroll shift register, so oscillation would be a very bad thing. (If you could try this on real FPGA hardware, you'd see how colossally bad it is. You don't get the effect with just a simulator.) Having two flip-flops means that the oscillation of the first flip-flop will most assuredly subside by the next hz100 clock.
 This system is called a two-flip-flop synchronizer and it is useful for more than just delaying buttons. Anytime there is a need to share a signal between two unsynchronized domains, a two-flip-flop synchronizer must be used.
-##### **Implementing the delay**
+#### **Implementing the delay**
 
 Add the two-flip-flop delay between the strobe output and the always_ff block. Get the satisfaction of seeing the system work as it was intended. You should be able to press any of the '0' through 'F' buttons and have it appear on the right digit of the display. Test your system well. Make certain that you have exactly two flip-flops between strobe and the always_ff block that updates the scroll shift register. Also make certain that the reset signal clears both flip-flops to zero. The two-flip-flop synchronizer is, effectively, a two-bit shift-register with an asynchronous clear. (See lecture module 3-H for more details and examples for synchronizers.)
 
