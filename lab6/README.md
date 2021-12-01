@@ -75,7 +75,7 @@ To test your design, press any of the push buttons from 'F' – '0'. You should 
 When you have tested your design well, submit the file (including modules top and prienc16to4) below. <br />
 
 # ECE 270 Lab Experiment 6: Combinational Building Blocks
-##Introduction
+## Introduction
 An important part of hardware design is to be able to encapsulate and reuse code as ‘modules’ — specifically in Verilog. You have already learned about examples of such hardware modules in lecture, such as multiplexers, encoders and decoders. In this lab, you will practice implementing such building blocks and integrate them into an overall design. You will practice building a multiplexer with hardware to solidify your knowledge about this system in particular.
 
 ## Step 1: Implement a seven-segment decoder submodule in Verilog
@@ -97,6 +97,7 @@ From your prelab, copy the prienc16to4 module to your top.sv file, as you will u
   - out: Connected to ss0[6:0]
 
 The module instance must start with:  <br />
+
 `ssdec sd (...`
 
 Follow the development shown on pages 11–26 of lecture 2-H to build a seven-segment display decoder. This module has four data inputs and a 7-bit output. It configures the outputs so that a four bit binary value is displayed as a hexadecimal digit on a 7-segment display. The third port, enable, determines if any of the outputs are asserted. If enable is not asserted, the output should remain off. This is a convenient way to turn off the entire digit if needed. <br />
