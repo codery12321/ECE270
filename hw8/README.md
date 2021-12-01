@@ -1,3 +1,4 @@
+# Homework 8
 ## Step 1: Counter next-state equations
 Create a SystemVerilog module named inc4 that accepts a 4-bit input named 'in' and produces a 4-bit output named 'out'. In this module, implement the counter equations to produce an output that is the next binary number higher than the input. When the input is 4'b1111, the output should "wrap-around" to 4'b0000.
 
