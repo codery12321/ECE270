@@ -155,3 +155,165 @@ For this example, the 7-segment displays should show 9999, which is the ten's co
 Test it thoroughly, and include this module in the text box at the bottom of the page.
 
 You might also try incorporating some of these constructs into the calculator you built for lab 11. That's what we did in previous semesters for lab 12.
+
+
+# ECE 270 Lab Experiment 12: Adders and the Lunar Lander
+
+This lab, and the next one, may be a bit of a time crunch, which is why we've tried to release it a bit earlier than usual. The time crunch is intended to get you used to the upcoming lab practical, where you will implement a specified Verilog design from scratch on the lab machines, with no access to course material, all within two hours. The implementation in this lab is very detailed, but it may not be the case for the lab practical.
+If you have been struggling with Verilog thus far, it would be a good idea to start early using the simulator. Make use of the time before your lab to understand the concepts you're implementing, and try to implement them without using code from the notes. We've tried to make the lab instructions applicable to both in-lab implementation and simulator implementation.
+Keep in mind that you still need to go to lab to get the entire design checked off by a TA on the lab FPGA.
+
+## Introduction
+
+You have been tasked with the great responsibility of writing an arithmetic unit for a lander headed for the Moon! We will have you implement adder/subtractor modules in order to realize an arithmetic logic unit for this lander. This unit, unlike the regular one that's in most CPUs, will be used to calculate the altitude, vertical velocity, and fuel of such a lander probe. <br />
+
+For the context of this experiment, we will make the following simplifying assumptions: <br />
+
+- The lander starts at some height over the Moon, and the gravity of the Moon, at 5 ft/s2, will cause the lander to start falling towards the ground.
+- The force of gravity is counteracted by the lander's thrust setting, which can be set anywhere between 0 to 9 ft/s2. As a result, you could turn off the thrusters to free fall towards the Moon (0 ft/s2), or engage them at highest thrust (9 ft/s2).
+- Your lander will either crash or land. It will crash if the downward lander velocity is larger than 30 ft/s or the thrust is higher than 5 - otherwise, it will land.
+
+## Step 0: Prelab
+
+- Read the notes for module 4-A to 4-D.
+- Read the entire lab document.
+- Do the prelab assignment on the course web page.
+>If you cannot implement the full lab by the end of your lab section, you may still receive partial credit by showing the code you've written to your TA. Credit will be awarded based on how much functionality was implemented versus what was expected.
+
+## Step 1: Implementing the Lunar Lander
+
+Run the ece270-setup script to get the necessary files. **Make sure to run this command for every day that you're working in the lab in order to get patches that may be issued to the Verilog make build system.**
+
+If you're on the simulator, copy the provided top.sv file into a new workspace, and enable File Simulation. You'll do most of your work in the lunarlander module, so start there!
+
+The substeps below cannot be tested individually since the entire design is tightly integrated. As a result, you'll need to actually finish all the substeps before simulating. Take extra care to follow the instructions, and try to look ahead to potential problems as you're following them - it could be that you have to define extra signals or buses not mentioned in the instructions. These unexpected situations may arise as you're writing code during a lab practical, and you should know how to fix them when they occur.
+
+## 1.1 Use your bcdaddsub4 module to calculate landing parameters
+
+You will implement the following equations using your bcdaddsub4 module from the prelab.
+```
+alt* = alt + vel
+vel* = vel - gravity + thrust
+fuel* = fuel - thrust
+```
+quantity* is meant to imply that this is the next-state register for the corresponding quantity, eg. fuel* is the next value of fuel that will be set in fuel on the next rising edge of the clock. Keep in mind that you cannot use asterisks as signal/bus names, so you'll need to give these proper names in code! <br />
+
+Make sure to first review the top.sv file to understand the layout of the code that you'll be writing. Then, in the lunarlander module, create eight buses - each one 16 bits long - for alt, vel, fuel and thrust, to store the current values, and newalt, newvel, newfuel and manualthrust, the first three of which will store the result of bcdaddsub4 modules to calculate the new altitude, velocity and fuel, and the fourth to store the value that you may input using the pushbuttons to change the thrust from 0 to 9. <br />
+
+Next, insert the bcdaddsub4 module from your prelab (and any other relevant modules you may need), and make four instantiations within the corresponding section of the lunarlander module, with the connections as follows: <br />
+
+- For the first instantiation, you will determine the new value of altitude based on the equation. Therefore the a input will be your current altitude, the b input will be your current velocity, op will be 1'b0, and the s output will be the new altitude.
+- For the second and third instantiations, you will determine the new velocity based on the equation. Use two instantiations to break down the new velocity equation such that you calculate vel - GRAVITY with the first instance, connect its sum to a new intermediate 16-bit bus (call it intval), and in the second instance, perform the calculation intval + thrust and connect the sum to the new velocity bus. Keep in mind that op should be 1'b1 for subtractions.
+- For the fourth instantiation, calculate the new fuel by setting up the ports such that the instance does newfuel = fuel - thrust.
+
+## 1.2 Set up a modifiable thrust register
+
+For this part, you'll need the **scankey** module from a previous lab. <br />
+
+In the comment section marked 1.2, create a clocked register in an always_ff block that sets manualthrust to the value of the currently pressed button, but only if the button pressed is 0-9 (you should understand how to use the scankey module to do this, given that in is the pushbutton input, and you should produce a 5-bit out and delayed strobe). Use hz100 and rst as the clock and async reset for scankey, and for the always_ff setting manualthrust, set the scankey's strobe as the clock, and the usual rst as the async reset. If rst is asserted, set manualthrust to the constant THRUST. <br />
+
+The behavior should be such that when you press a button 0-9, the corresponding binary value should be stored into manualthrust. Note that manualthrust is a 16-bit register, so you may need to pad the 4-bit scankey output with zeroes. (We say 4-bit since there is no use for the fifth bit of the scankey output, out[4], since we will only use buttons 0-9 for setting the thrust in this step.) <br />
+
+## 1.3 Set up the state machine logic for the lander
+
+We've now come to the bulk of the code - the state machine that will be used for the lander. Create an enum datatype to define the states of this machine as follows: <br />
+```
+      typedef enum logic [2:0] {INIT=0, CALC=1, SET=2, CHK=3, HLT=4} flight_t;
+      logic [2:0] flight;
+      logic nland, ncrash;
+```    
+Set up an always_ff block with clk and rst as clock and asynchronous reset, and have it do the following:  <br />
+
+- If rst is high:
+  - Initialize flight to INIT.
+  - Initialize the crash and land outputs, and their next-state signals ncrash and nland, to 0.
+  - Initialize fuel, alt, vel, thrust to the constants FUEL, ALTITUDE, VELOCITY and THRUST. Note that these constants are the same ones in the parameter section of the lunarlander module.
+- Otherwise (the easiest way to write the following is a case statement within the same always_ff block):
+  - If flight is INIT:
+    - Simply set flight to CALC! (We just started the state machine, so we'll start by immediately calculating the new values of altitude, velocity and fuel based on the current values, and the provided thrust.)
+  - Otherwise if flight is CALC:
+    - Simply set flight to SET! (Nothing happens in terms of the state machine, but that's because the calculation is happening in the bcdaddsub4 module instances, so we add a CALC stage to give it time to calculate the new values).
+  - Otherwise if flight is SET:
+    - If the new value of fuel is negative (i.e. if newfuel[15] is 1) set fuel to 0, otherwise set it to newfuel. (We can't have negative fuel!)
+    - Set alt to newalt.
+    - Set vel to newvel.
+    - If the new value of fuel is negative or if fuel is currently zero, set thrust to 0, otherwise set it to manualthrust. (This ensures we don't have a lander that can magically fly up with zero fuel, and we can't manually change thrust to anything from zero if fuel is zero.)
+    - Set flight to CHK.
+  - Otherwise if flight is CHK:
+    - If the new value of altitude is negative (i.e. if newalt[15] is 1), thrust is less than or equal to 5, and newvel is larger than 16'h9970, set nland to 1 and flight to HLT. (We tried to land too fast, and ended up crashing, and so we must halt (HLT)!)
+    - Otherwise if the new value of altitude is negative (i.e. if newalt[15] is 1), set ncrash to 1 and flight to HLT. (We landed at a safe speed and thrust, so it was a safe landing, and so we must halt (HLT)!)
+    - Otherwise, set flight to CALC.
+  - Otherwise if flight is HLT: (then we either landed or crashed)
+    - Set the value of land to nland.
+    - Set the value of crash to ncrash.
+    - Set the value of alt to 0. (We're on the ground...)
+    - Set the value of vel to 0. (...and we're not going anywhere!)
+
+## 1.4 Set up the display mechanics
+For this portion, you'll need to copy over the display_32_bit and ssdec modules from lab 10. You'll now set up the part of the module that displays the altitude, velocity, fuel and thrust on the ssX displays. We'll give you the following code to place into the corresponding section:
+```
+      logic [23:0] lookupmsg [3:0];
+      logic [1:0] sel;
+      logic [15:0] val;
+      always_comb begin
+        lookupmsg[0] = 24'b011101110011100001111000;  // alt
+        lookupmsg[1] = 24'b001111100111100100111000;  // vel
+        lookupmsg[2] = 24'b011011110111011101101101;  // fuel (says gas)
+        lookupmsg[3] = 24'b011110000111011001010000;  // thrust
+      end
+```    
+This block sets up the ss7-ss5 displays to show "ALT", "VEL", "GAS" (for fuel) and "THR" (for thrust). You'll modify this block to add a case statement that checks the value of sel, and do the following: <br />
+
+- If sel is 0, set val to alt.
+- If sel is 1, set val to vel.
+- If sel is 2, set val to fuel.
+- If sel is 3, set val to thrust.
+
+Notice that you should not need a default case! <br />
+
+The lander's velocity should eventually become negative as the lander picks up speed falling towards the Moon's surface. If you may recall from Module 4, negative numbers aren't represented so easily in hardware. If you had to store the value "-30" in a 4-digit, 16-bit register, it would be represented in 4-digit, base-10, 2's-complement form as 9970 (each digit stored in BCD form). <br />
+
+To ensure that we would show "-30" and not "9970", we will set up a new 16-bit bus called negval, which will store the value (0 - val). If val ends up being negative, then (0 - val) would give us the positive value, and we can simply prepend a minus sign in front of it while displaying it. <br />
+
+Instantiate bcdaddsub4 one more time to perform this negation. Plug in 0 to the a input port, val to the b input port, and 1'b1 to the op input port. Connect the sum to negval. <br />
+
+To do this, create two 64-bit buses called valdisp and negvaldisp and a new 16-bit bus called negval. Create two instances of display_32_bit - connect {16'b0, val} and {16'b0, negval} to the instance in ports, and valdisp and negvaldisp to the instance out ports. (Keep in mind that val and negval go to different instances!) <br />
+
+Next, create a new always_comb block, and in it, assign ss accordingly: <br />
+
+- If val is negative (val[15] is 1), connect ss to `{lookupmsg[sel], 8'b0, 8'b01000000, negvaldisp[23:0]}.` Note the inclusion of 8'b01000000 - this is your minus sign, on the G segment of ss3!
+- Otherwise, connect ss to `{lookupmsg[sel], 8'b0, valdisp[31:0]}.`
+Finally, create an always_ff block clocked by scankey's strobe, and reset by rst. If rst is high, set sel to 0, otherwise:
+
+- If scankey's output is 5'b10000 (W is pressed), set sel to 3. (Pressing W should display thrust.)
+- If scankey's output is 5'b10001 (X is pressed), set sel to 2. (Pressing X should display fuel.)
+- If scankey's output is 5'b10010 (Y is pressed), set sel to 1. (Pressing Y should display vel.)
+- If scankey's output is 5'b10011 (Z is pressed), set sel to 0. (Pressing Z should display alt.)
+
+## 1.5 Instantiate the Lunar Lander and set up a slower clock
+
+We're nearing the end! <br />
+
+The lunarlander module, if clocked at 100 Hz, will probably run too fast for you to properly read the altitude/velocity/fuel values as they update on every loop through the state machine. Thus, we actually allow for two clock ports in the module - one for the regular 100 Hz hz100 clock in the top module, and a clock divided from hz100 that the module will use to simulate the landing by cycling through the FSM. We use the slower clock to allow for easier viewing of lander parameters as they update, and use the hz100 clock for the scankey module so you can update the thrust. <br />
+
+Note that when you actually run your design and try to change the thrust, it will only change upon the next rising edge of the slower clock, and not immediately - this is intentionally done to avoid setup time violations. <br />
+
+Using knowledge from previous labs, implement a slower clock in the top module, and connect it to a new logic signal, hzX. The frequency is up to you - keep in mind that you don't want it too fast that you can't read the values as they update, and you don't want it too slow that you and your TA end up awkwardly watching the board waiting for the lander to land. We used 4 Hz. <br />
+
+Then, instantiate the lunar lander module as follows: <br />
+```
+      lunarlander #(16'h800, 16'h4500, 16'h0, 16'h5) ll (
+        .hz100(hz100), .clk(hzX), .rst(reset), .in(pb[19:0]), .crash(red), .land(green),
+        .ss({ss7, ss6, ss5, ss4, ss3, ss2, ss1, ss0})
+      );
+```    
+## Step 2: Flash and demonstrate your design on the FPGA
+
+If you're directly using the instantiation above, your "lander" will do the following: <br />
+
+- It will appear 4500 feet above the moon, so your altitude will show 4500.
+- It will stay in the same exact spot, since thrust and gravity are set equal to each other at 5 ft/s2. Velocity was initialized to 0, so it'll stay that way until you change the thrust.
+- It will consume fuel (or gas on the display) at the rate of 5 units/clock cycle. The fuel should not run out, otherwise you will no longer be able to turn on your lander's thrusters!
+ <br />Try toggling the display selectors to show altitude/velocity/fuel/thrust using Z/Y/X/W respectively, and use them to try to land your shuttle as shown in the video. If your design works the same way as the video on the top of the page (not necessarily with the exact same values), great job! Attempt a crash as well, and show both scenarios to a TA to get checked off. Then, submit it in your postlab. <br />
+
+Enjoy your Thanksgiving break!
