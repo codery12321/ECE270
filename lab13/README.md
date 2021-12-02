@@ -133,6 +133,7 @@ You can hand-verify some more instructions and your flags with the table below, 
 - R2 = 00000002
 - R8 = 80000000
 - R9 = FFFFFFFF
+
 Then, try these instructions, and verify that the result in R0 and the flags match correctly. The flag descriptions are as follows: If the letter for the flag is shown, it is high, otherwise if it's represented with an underscore (_) then the flag is low. For example, if the expected flags for an operation are N_C_, then only N and C are high, while Z and V are low, indicating that the result is negative, required the use of a carry/borrow, is not zero, and the operation that produced it did not result in an overflow.
 
 ```
