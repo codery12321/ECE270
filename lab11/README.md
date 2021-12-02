@@ -400,7 +400,7 @@ Test your design thoroughly. Check the examples carefully. When you are satisfie
 
 It may not be your idea of "fun", but you're at the point where you can try something interesting now. Replace the functionality for 'X' in your digits always_ff block with the same mechanisms for 'Y' and 'Z' except assign op <= 2. In the math module, add another entry to the case statement for when op is 2: <br />
 
-          `2: r = a * b;`
+          2: r = a * b;
 
 After doing this, you won't be able to backspace entered numbers anymore, but you will have a calculator that can multiply 32-bit hexadecimal numbers. Notice that it takes longer to compile your design in the simulator now. You might also try replacing the '*' with '/' to make a calculator that can divide a 32-bit hexadecimal number by another. This will take a long time to compile—so long that the simulator might give up waiting for it to finish and just call it an error.
 >Questions or comments about the course and/or the content of these webpages should be sent to the Course Webmaster. All the materials on this site are intended solely for the use of students enrolled in ECE 270 at the Purdue University West Lafayette Campus. Downloading, copying, or reproducing any of the copyrighted materials posted on this site (documents or videos) for anything other than educational purposes is forbidden.
