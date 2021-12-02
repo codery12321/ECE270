@@ -107,3 +107,96 @@ To test your Simon controller, try the following:
 - Finally, clock to go to state ENT, with right[0] turning on, and hold down pb[16] and pb[17] while clocking one more time. Observe that this time, right[0] does not turn off, because we have indicated that we got the number right (win), at the last level of the game (lvlmax). At this stage, we're done with the game, which will perpetually show "GOODJOB!" to indicate the appreciation for the effort you have put in. Press 3-0-W one more time to return to RDY.
 
 So that we can evaluate the operation of the module you wrote, include the top module with the proper instantiation in your submission. Do not forget to include the module that you wrote for this step.
+
+# ECE 270 Lab Experiment 10: State Machines, Sequence Recognizers, and Simon!
+
+## Introduction
+
+For this lab, you will implement a 1 Hz clock, a synchronizer+encoder module for the pushbuttons, a number entry module, and a game state controller. <br />
+
+"Simon" is loosely based on the game of the same name that used to be popular in the 80s, with occassional reboots over the years. The idea that has been implemented for this lab is to show you a number for a short amount of time, when you would try to memorize it, and then enter the number from memory when an entry pad appears. <br />
+
+## Step 0: Prelab
+
+- Read the notes for module 3-H and 3-I.
+- Read the entire lab document.
+- Do the prelab assignment on the course web page.
+
+## Step 1: Verify all your prelab submodules
+
+Run the ece270-setup command to get the necessary files for this lab.
+
+From your prelab, copy in the clock_1hz, scankey, entrynum, simonctl modules below your top module in top.sv in your ece270/lab10 folder. In Kate, you'll have to add a new target to run the command "make verify". The command should run our testbenches on your prelab modules to ensure consistency with the larger design. If you get errors, read the error description carefully, comparing with the prelab expectations, to try to understand where you're going wrong.
+
+Demonstrate the GTKwave waveform to your TA showing all the tests for the four modules.
+
+## Step 2: Modify count8du to count from a specified value
+
+Copy over the count8du module you worked on for last lab, and rename it as count8du_init. You will also need your ssdec module to easily check the value of your modified counter for this step.
+
+To be clear, we are asking you to change the module name, not just set the instance name. The latter can be whatever you like.
+
+Make the following changes to your module:
+
+- Change all occurrences of the port name MAX in the module, to INIT. That includes the port name in the header, and any use of MAX in your next_Q equations in the always_comb block.
+- In the always_ff block, instead of asynchronously resetting Q to 0, reset it to INIT. (Yes, your reset value does not have to be 0! Recall the state machine circuit you built for lab 8.) This makes for an effective down-counter, because we would like to start from N, and then count down to 0, instead of the earlier behavior of counting from 0 to N and then again to 0, which wastes a clock cycle and is technically the incorrect way to do it.
+
+Then, in the top module, instantiate the count8du_init, clock_1hz, and ssdec modules as follows (the instance names are up to you):
+- Connect hz100 and reset to clock_1hz's corresponding ports, and connect the output hz1 to a new logic signal, hz1, in the top module.
+- Connect hz1 from above to the count8du_init module as its clock and reset to the corresponding reset port. Connect DIR to 1'b0, the enable E to the expression ctr != 0, INIT to 8'd5, and the output Q to a new 8-bit bus called ctr.
+- Connect ctr[3:0] as the input to an instance of ssdec, with the enable port connected to the expression ctr != 0 (as above) and the output connected to ss0[6:0].
+
+>Run 'make cram', and demonstrate to your TA that your counter counts down from 5 by 1 on ss0 every second, and turns off when the counter reaches 0, to receive a checkoff.
+
+## Step 3: Implement the 32-bit number display module
+
+You may comment out, but do not remove, the lines you wrote in the previous step in the top module. This ensures we know that you wrote and used them at some point.
+
+A significant portion of the game design is the display mechanism used to show the numbers. It needs to achieve two things:
+- The mechanism must scale from using standalone one-digit display ssdec modules, to a single module that does the seven-segment decoding for 8 numbers at once.
+- The mechanism must be capable of hiding digits when they are not significant, i.e. why show "00001234" when you can detect sig figs and show "____1234"?
+
+If you recall correctly, you used this module already to test your number entry module from the prelab, called display_32_bit. You will now implement this module.
+
+To do this, the module you write should take a 32-bit, 8-hex-digit number and convert it to a 64-bit seven-segment decoded output that can be directly connected to all the ss displays. The display_32_bit module's 32-bit input will be called in, and its 64-bit output will be called out.
+
+The structure of the module is as simple as eight ssdec instances, each connected to 4 bits of the input, and 8 bits of the output. For example, for the first ssdec instance within display_32_bit, you would connect in[3:0] to the input, 1'b1 to the enable (since it is the first digit and is hence always visible) and out[7:0] to the output.
+
+Make the connections accordingly for the second to eighth ssdec instances with the following condition for each of their enables - if any of the bits of in for that corresponding ssdec, or the ones above it are high, the enable should be connected to 1'b1. For example, ss1 should only be enabled if any of the bits in[31:4] are 1.
+
+Finally, to test, put this instantiation into your top module:
+```
+    logic [7:0] ctr1, ctr2, ctr3, ctr4;
+    count8du_init flashnum1 (.CLK(hz100), .RST(reset), .DIR(1'b0), .E(ctr1 != 0), .INIT(8'h99), .Q(ctr1));
+    count8du_init flashnum2 (.CLK(hz100), .RST(reset), .DIR(1'b0), .E(ctr2 != 0), .INIT(8'hAB), .Q(ctr2));
+    count8du_init flashnum3 (.CLK(hz100), .RST(reset), .DIR(1'b0), .E(ctr3 != 0), .INIT(8'hCD), .Q(ctr3));
+    count8du_init flashnum4 (.CLK(hz100), .RST(reset), .DIR(1'b0), .E(ctr4 != 0), .INIT(8'hEF), .Q(ctr4));
+    display_32_bit show_entry (.in({ctr1, ctr2, ctr3, ctr4}), .out({ss7, ss6, ss5, ss4, ss3, ss2, ss1, ss0}));
+```    
+This will initialize some counters to arbitrary values, connect their outputs to your display_32_bit module, and have them be displayed on the ssX displays. If written correctly, you will see a rapid down-count of the values to 0, progressively reducing in size and therefore turning off ss7, ss6, ss5 and so on as the number gets smaller. Once it reaches ss0, ss1-ss7 should be off.
+
+>Demonstrate this down-count, and the displays turning off as the number gets smaller, to your TA to receive a checkoff.
+
+## Step 4: Integrate submodules with the Simon black-box module
+
+We are now ready to play! Comment out the code from earlier in the top module instantiating display_32_bit and the counters, and add the following Simon black-box module instantiation into your top module:
+```
+      simon game (.clk(hz100), .reset(reset), .in(pb[19:0]), .left(left), .right(right),
+      .ss({ss7, ss6, ss5, ss4, ss3, ss2, ss1, ss0}), .win(green), .lose(red));
+```
+
+If you're instantiating in the simulator, make sure to enable "simon.sv" in Workspace Settings (the gear icon next to the current workspace name), and write the following instead:
+```
+      simon #(2) game (.clk(hz100), .reset(reset), .in(pb[19:0]), .left(left), .right(right),
+      .ss({ss7, ss6, ss5, ss4, ss3, ss2, ss1, ss0}), .win(green), .lose(red));
+```    
+Before running "make cram", make sure that:
+
+- You have the modules display_32_bit, clock_1hz, numentry, scankey, simonctl, ssdec, count8du_init in your top.sv file.
+- Remove the typedef enum definition from your simonctl module - we'll define it in the simon module, so it may conflict if it already exists. If you get a missing typedef enum warning, move the definition to the top of your file, above the top module and not inside a module.
+
+Note the #(2) parameter in the simulator instantiation, between "simon" and "game". This controls how long the delay is between when the number is shown and when the entry pad is displayed. You can experiment with this value to make the game really hard, or really easy.
+
+>For this checkoff, play through the game until level 8 before calling a TA. In particular, check that you are not able to enter numbers when the random number is being shown. When you see "READY? 8", ask for a TA, and demonstrate your well-honed memory skills by intentionally typing in the wrong number and having it display "TRYAGAIN", then typing in the right number and having it remain on "GOODJOB!", then demonstrating the reset functionality by pressing 3-0-W.
+
+Once you have been checked off, submit all the code in your top.sv file.
