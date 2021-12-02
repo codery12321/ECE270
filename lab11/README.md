@@ -142,11 +142,11 @@ After entering a multi-digit number on the calculator, (and using 'X' as a backs
 - 'Z': Subtract the number entered next from the one already entered. <br />
 - 'W': Complete the previously selected operation on the numbers entered. (This is analogous to the '=' button on a conventional calculator. <br />
 In the end, you should be able to add two hexadecimal numbers with a sequence like: <br />
-          B 2 B 5     Y     3 F 8 5     W <br />
+          `B 2 B 5     Y     3 F 8 5     W `<br />
         (16'hb2b5) (plus) (16'h3f85) (equals) <br />
 
 and see the result, 16'hf23a, displayed. Similarly, if you enter a sequence to subtract one number from another: <br />
-          F 2 3 A     Z     3 F 8 5      W <br />
+        `  F 2 3 A     Z     3 F 8 5      W <br />`
         (16'hf23a) (minus) (16'hb2b5) (equals) <br />
 
 you'll see the result, 16'hb2b5, displayed. <br />
