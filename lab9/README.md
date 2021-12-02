@@ -2,11 +2,12 @@
 ## Step 1: An 8-bit modulo counter [10 points]
 
 With the help of the code given to you in Module 3-F for the "Basic 8-bit binary up-counter", design an 8-bit counter that counts to 99, and then starts over from 0. The counter must be designed as a separate module named count8du, with the following ports:
-
 - A 1-bit logic input called CLK
 - A 1-bit logic input called RST (which you will need to add to the code from the slides), and
 - An 8-bit logic output called Q
+
 To make it count to 99 and restart, you will need to modify the always_comb block to set the value of next_Q to 0 when Q is equal to 8'd99, otherwise continue to increment Q by 1 by using the equations for next_Q provided in the code.
+
 You should really use the examples from lecture module 3-F. Do not use the '+' operator. You haven't learned how to use that yet. You might look at the examples of reduction operators in homework 8. For instance, instead of typing out something like "x[3] & x[2] & x[1] & x[0]" you can say, instead, "&x[3:0]". The AND prefix is applied to all elements of the bus. This works for all of the Boolean binary operators like '|' and '^'. The use of reduction operators make it possible to succinctly specify the next-state equations for counter.
 
 In the top module, instantiate this module with the name c8_1, and connect CLK to hz100, RST to reset, and Q to right. To ensure that your counter is working correctly, you should see that the right[7] LED is never illuminated. You will also notice that the right[6] LED blinks at a rate of once per second. This is because it counts from 0 ... 99 (100 steps) repeatedly. Each step of the count takes 1/100 of a second, and so every full count from 0 to 99 (100 steps) should take exactly one full second. The right[6] LED is on when the decimal value of the count is between 64 and 99, or approximately 1/3 of the time of the full count.
@@ -22,7 +23,6 @@ This lab will have you develop a binary up counter, and make modifications to it
 The 'hz100' signal toggles at a frequency of 100 Hz (hence the name) and is capable of being used in designs that require accurate clock signals, such as stopwatches and timers. We can build these devices with the help of counters, and use these devices to build (hopefully) fun games. :)
 
 ## Step 0: Prelab
-
 - Read the notes for module 3-F.
 - Read the entire lab document.
 - Do the prelab assignment on the course web page.
