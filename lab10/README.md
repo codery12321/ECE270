@@ -128,7 +128,7 @@ Run the ece270-setup command to get the necessary files for this lab.
 
 From your prelab, copy in the clock_1hz, scankey, entrynum, simonctl modules below your top module in top.sv in your ece270/lab10 folder. In Kate, you'll have to add a new target to run the command "make verify". The command should run our testbenches on your prelab modules to ensure consistency with the larger design. If you get errors, read the error description carefully, comparing with the prelab expectations, to try to understand where you're going wrong.
 
-Demonstrate the GTKwave waveform to your TA showing all the tests for the four modules.
+>Demonstrate the GTKwave waveform to your TA showing all the tests for the four modules.
 
 ## Step 2: Modify count8du to count from a specified value
 
