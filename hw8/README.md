@@ -25,6 +25,7 @@ module div100(input logic in, reset, output logic out);
 endmodule
 ```
 Use the ssdec module you used for previous assignments.
+
 The main reset signal will be used to initialize the div100 shift register to contain an initial 100'b1. Thereafter, it will produce a 1 Hz output. That 1 Hz signal is connected to the clk signal and is used as a clock for the always_ff block. The only thing done by the always_ff is synchronously update all four bits of the q bus with the contents of the next_q bus. The next_q bus is set by the output of your inc4 module.
 
 This is the simplest specification for only the next-state equations for generation of a four-bit counter.
@@ -32,7 +33,8 @@ This is the simplest specification for only the next-state equations for generat
 Test your module carefully to ensure that it counts from 0 up to F and back to 0. When it works as you expect, copy only the inc4 module into the textbox below.
 
 ## Step 2: A counter with an asynchronous reset
-Consider lecture module 3-F pages 9–28. Construct a four-bit counter module named "counter4ar" that has only a clock input named "clk", a four bit output named "out", and an asynchronous reset named "ar". Create an instance of it in your top module with the following statements:
+Consider lecture module 3-F pages 9–28.
+Construct a four-bit counter module named "counter4ar" that has only a clock input named "clk", a four bit output named "out", and an asynchronous reset named "ar". Create an instance of it in your top module with the following statements:
 
   ```
   logic clk;
