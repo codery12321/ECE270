@@ -59,34 +59,34 @@ always_comb begin
   N = out[31] == 1'b1 ? 1'b1 : 1'b0;
   Z = out == 0 ? 1'b1: 1'b0; //~(|out);
   if(op == ALU_ADD || op == ALU_ADC) begin
-    if ((in1[31] == 1 && in2[31] == 1) || (in1[31] == 1 && out[31] == 0) || (in2[31] == 1 && out[31] == 0))
-      C = 1;
+    if ((in1[31] == 1 && in2[31] == 1) || (in1[31] == 1 && out[31] == 0) || (in2[31] == 1 && out[31] == 0)) //C flag for addition
+      C = 1'b1;
     else
-      C = 0;
+      C = 1'b0;
   end
   else if(op == ALU_SUB || op == ALU_SBC) begin
-    if ((in1[31] == 1 && ~in2[31] == 1) || (in1[31] == 1 && out[31] == 0) || (~in2[31] == 1 && out[31] == 0))
+    if ((in1[31] == 1 && in2[31] == 0) || (in1[31] == 1 && out[31] == 0) || (in2[31] == 0 && out[31] == 0)) //C flag for subtraction
       C = 1'b1;
     else
       C = 1'b0;
   end
   else
-    C = 0;
+    C = 1'b0;
 
   if(op == ALU_ADD || op == ALU_ADC) begin
-    if((in1[31] == 1 && in2[31] == 1 && out[31] == 0) == 1 || (in1[31] == 0 && in2[31] == 0 && out[31] == 1) == 1 )
+    if((in1[31] == 1 && in2[31] == 1 && out[31] == 0) == 1 || (in1[31] == 0 && in2[31] == 0 && out[31] == 1) == 1 ) //V flag for addition
       V = 1'b1;
     else
       V = 1'b0;
   end
   else if (op == ALU_SUB || op == ALU_SBC) begin
-    if (((in1[31] == 1 && ~in2[31] == 0 && out[31] == 0) == 1) || ((in1[31] == 0 && ~in2[31] == 0 && out[31] == 1) == 1))
+    if (((in1[31] == 1 && in2[31] == 1 && out[31] == 0) == 1) || ((in1[31] == 0 && in2[31] == 1 && out[31] == 1) == 1)) //V flag for subtraction
       V = 1'b1;
     else
       V = 1'b0;
   end
   else
-    V = 0;
+    V = 1'b0;
 end
 
 always_ff @ (posedge rst, posedge clk)
