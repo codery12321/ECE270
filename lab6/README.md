@@ -4,7 +4,7 @@ This lab is about implementing combinational building blocks. You will start by 
 
 It is possible to put modules in two or more files of a workspace. When the simulator is in the "Workspace Simulation" mode, it combines the modules of all files together. In this experiment, however, we will treat each file separately, so be sure to switch from "Workspace Simulation" to "File Simulation". If you don't, you will see the warning message "ERROR Re-definition of module '\top'!" <br />
 
-Follow the instructions for each exercise below. <br />
+Follow the instructions for each exercise below.
 
 ## Step 1: Implementing a 4-to-1 multiplexer in Verilog [10 points]
 
