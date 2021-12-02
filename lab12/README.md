@@ -1,10 +1,10 @@
 # Pre-Lab Submission 12
-
 ## Step 1: A half-adder [2 points]
-Construct a half-adder module. The module should be named ha. It should have two single-bit inputs named a and b. It should have two single-bit outputs named s (sum) and co (carry-out).  <br />
+Construct a half-adder module. The module should be named ha. It should have two single-bit inputs named a and b. It should have two single-bit outputs named s (sum) and co (carry-out).
 
 You can instantiate and test the half-adder module with the following: <br />
-  `ha h1(.a(pb[0]), .b(pb[1]), .s(right[0]), .co(right[1]));`  <br />
+  `ha h1(.a(pb[0]), .b(pb[1]), .s(right[0]), .co(right[1]));`  
+  
 Include this module in the text box at the bottom of the page. <br />
 
 ## Step (2): A full adder built from two half-adders [2 points]
