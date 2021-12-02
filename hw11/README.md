@@ -3,9 +3,9 @@
 
 Read these instructions completely before writing your code. <br />
 
-Create a Verilog design, below, by using the standard 'top' module for the FPGA simulator. You may instantiate as many other modules as you need. In particular, you should use the 'ssdec' module for 7-segment decoding that you used for your labs. Get that ready now. <br />
+Create a Verilog design, below, by using the standard 'top' module for the FPGA simulator. You may instantiate as many other modules as you need. In particular, you should use the 'ssdec' module for 7-segment decoding that you used for your labs. Get that ready now.
 
-Your design should implement the following things one step at a time: <br />
+Your design should implement the following things one step at a time:
 
 Use ssdec to display the hexadecimal value of four independent 4-bit binary counter registers on ss7, ss6, ss5, and ss4. <br />
 The '7', '6', '5', and '4' buttons are clock inputs for the counters displayed on ss7, ss6, ss5, and ss4, respectively. For example, when ss7, ss6, ss5, and ss4 display 0000, and the '6' button is pressed, the display should change to 0100. After that, when the '7' button is pressed, the display should change to 1100. After that, when the '6' button is pressed again, the display should change to 1200. <br />
