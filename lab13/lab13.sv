@@ -18,14 +18,14 @@ module top (
 );
 support13 sup (.clk (hz100), .reset (reset), .in (pb), .out7 (ss7), .out6 (ss6), .out5 (ss5), .out4 (ss4), .out3 (ss3), .out2 (ss2), .out1 (ss1), .out0 (ss0));
   // Your code goes here...
-
+  
 endmodule
 
 // Add more modules down here...
 module alu (
   input logic clk, rst,         // clk and rst for handling flag updation
   input logic [31:0] in1, in2,  // the operands the ALU will act on,
-  input logic fue,              // the Flag Update Enable, which, if high,
+  input logic fue,              // the Flag Update Enable, which, if high, 
                                 // allows fout to be updated on rising edge of clk
   input logic [4:0] op,         // the current operation,
   output logic [31:0] out,      // the result of the current operation,
@@ -41,19 +41,19 @@ logic N, Z, C, V;
 
 logic [3:0]nfout;
 always_comb begin
-  case (op)
+  case (op) 
     ALU_CMP: begin out = in1 - in2; nfout = {N, Z, C, V}; end
     ALU_NEG: begin out = 0 - in2; nfout = {N, Z, C, V}; end
     ALU_ADD: begin out = in1 + in2;  nfout = {N, Z, C, V}; end
-    ALU_ADC: begin out = in1 + in2 + {31'b0, C}; nfout = {N, Z, C, V}; end
+    ALU_ADC: begin out = in1 + in2 + {31'b0, Ccur}; nfout = {N, Z, C, V}; end
     ALU_SUB: begin out = in1 - in2; nfout = {N, Z, C, V}; end
-    ALU_SBC: begin out = in1 - in2 + {31'b0, C}; nfout = {N, Z, C, V}; end
-    ALU_NOT: begin out = ~in2; nfout = {N, Z, 1'b0, 1'b0}; end
-    ALU_OR : begin out = in1 | in2; nfout = {N, Z, 1'b0, 1'b0}; end
-    ALU_AND: begin out = in1 & in2; nfout = {N, Z, 1'b0, 1'b0}; end
-    ALU_BIC: begin out = in1 & ~in2; nfout = {N, Z, 1'b0, 1'b0}; end
-    ALU_XOR: begin out = in1 ^ in2; nfout = {N, Z, 1'b0, 1'b0}; end
-    ALU_CPY: begin out = in2; nfout = {N, Z, 1'b0, 1'b0}; end
+    ALU_SBC: begin out = in1 - in2 + {31'b0, Ccur}; nfout = {N, Z, C, V}; end
+    ALU_NOT: begin out = ~in2; nfout = {N, Z, Ccur, Vcur}; end
+    ALU_OR : begin out = in1 | in2; nfout = {N, Z, Ccur, Vcur}; end
+    ALU_AND: begin out = in1 & in2; nfout = {N, Z, Ccur, Vcur}; end
+    ALU_BIC: begin out = in1 & ~in2; nfout = {N, Z, Ccur, Vcur}; end
+    ALU_XOR: begin out = in1 ^ in2; nfout = {N, Z, Ccur, Vcur}; end
+    ALU_CPY: begin out = in2; nfout = {N, Z, Ccur, Vcur}; end
     default: begin out = 0; nfout = {Ncur, Zcur, Ccur, Vcur}; end
   endcase
   N = out[31] == 1'b1 ? 1'b1 : 1'b0;
@@ -72,15 +72,15 @@ always_comb begin
   end
   else
     C = 1'b0;
-
+  
   if(op == ALU_ADD || op == ALU_ADC) begin
-    if((in1[31] == 1 && in2[31] == 1 && out[31] == 0) == 1 || (in1[31] == 0 && in2[31] == 0 && out[31] == 1) == 1 ) //V flag for addition
+    if((in1[31] == 1 && in2[31] == 1 && out[31] == 0) || (in1[31] == 0 && in2[31] == 0 && out[31] == 1) ) //V flag for addition
       V = 1'b1;
     else
       V = 1'b0;
   end
   else if (op == ALU_SUB || op == ALU_SBC) begin
-    if (((in1[31] == 1 && in2[31] == 1 && out[31] == 0) == 1) || ((in1[31] == 0 && in2[31] == 1 && out[31] == 1) == 1)) //V flag for subtraction
+    if ((in1[31] == 1 && in2[31] == 1 && out[31] == 0) || (in1[31] == 0 && in2[31] == 1 && out[31] == 1)) //V flag for subtraction
       V = 1'b1;
     else
       V = 1'b0;
@@ -94,7 +94,7 @@ if (rst)
   fout <= 0;
 else if (fue == 1)
   fout <= nfout;
-
+  
 endmodule
 
 module scankey(input logic clk, input logic rst, input logic [19:0] in, output logic [4:0] out, output logic strobe);
@@ -120,9 +120,9 @@ endmodule
 
 module ssdec (input logic [3:0]in, output logic [6:0] out, input logic enable);
     logic [6:0] SEG7 [15:0];
-
+    
     assign SEG7[4'h0] = enable == 1 ? 7'b0111111: 7'b0000000;//012345
-    assign SEG7[4'h1] = enable == 1 ? 7'b0000110: 7'b0000000;//12
+    assign SEG7[4'h1] = enable == 1 ? 7'b0000110: 7'b0000000;//12 
     assign SEG7[4'h2] = enable == 1 ? 7'b1011011: 7'b0000000;//01346
     assign SEG7[4'h3] = enable == 1 ? 7'b1001111: 7'b0000000;//01236
     assign SEG7[4'h4] = enable == 1 ? 7'b1100110: 7'b0000000;//1256
