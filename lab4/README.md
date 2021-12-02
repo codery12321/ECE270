@@ -1,6 +1,6 @@
 # ECE 270 Lab Experiment 4: Introduction to Verilog on a ice40HX8K FPGA
 ## Step 1: Light up LED segments with button presses
-The figure above shows the named segments of the eight SS seven-segment displays present on the display. The pin numbers on the display are just for your information. The display is made up of seven segments, each with its own pin, as well as a decimal point (DP), also with its own segment. When you connect a pin for a segment to power (and add the necessary grounds) the segment will light up. <br />
+The figure above shows the named segments of the eight SS seven-segment displays present on the display. The pin numbers on the display are just for your information. The display is made up of seven segments, each with its own pin, as well as a decimal point (DP), also with its own segment. When you connect a pin for a segment to power (and add the necessary grounds) the segment will light up.
 
 You can write Verilog to do this. Write code to connect 7 buttons (pb[6:0]) to the seven segments of ss0. The decimal point is the 8th bit of the seven-segment display, but we will not be using that in this lab. If written correctly, pressing pb[0] will light up segment A, pb[1] will light up segment B, pb[2] will light up segment C, and so on. A demo animation is provided below. <br />
 
