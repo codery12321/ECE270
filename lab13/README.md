@@ -120,8 +120,8 @@ For each of the flags, write and assign an expression in place of "1" so that th
 - For the V/overflow flag, all we would need is the 33rd bit of the result, but since we're limited to 32 bits long, we'll need to use a bit of sorcery here to determine the conditions when the 33rd bit would be 1. V should be 1 when:
   - During an addition operation (ADD/ADC), if the sign bits of in1 and in2 are both 1 and the sign bit of out is 0 OR the sign bits of in1 and in2 are both 0 and the sign bit of out is 1. (if you are confused what a sign bit is, go through Module 4-A.)
   - During a subtraction operation (SUB/SBC), the sign bits of in1 and ~in2 are both 1 and the sign bit of out is 0 OR the sign bits of in1 and ~in2 are both 0 and the sign bit of out is 1.
-Now, set up an always_ff block utilizing the rising edges of clk and rst, which will do the following: <br />
 
+Now, set up an always_ff block utilizing the rising edges of clk and rst, which will do the following: <br />
 - If rst is 1, fout will be set to 0.
 - Otherwise if fue is 1, fout will be set to nfout. (Remember, you do not need an else case in an always_ff block, so just this condition is fine.) <br />
 
