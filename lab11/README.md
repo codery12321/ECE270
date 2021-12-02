@@ -144,12 +144,12 @@ After entering a multi-digit number on the calculator, (and using 'X' as a backs
 In the end, you should be able to add two hexadecimal numbers with a sequence like: <br />
           `B 2 B 5     Y     3 F 8 5     W `
 
-        (16'hb2b5) (plus) (16'h3f85) (equals) <br />
+        (16'hb2b5) (plus) (16'h3f85) (equals)
 
 and see the result, 16'hf23a, displayed. Similarly, if you enter a sequence to subtract one number from another: <br />
         `  F 2 3 A     Z     3 F 8 5      W `
 
-        (16'hf23a) (minus) (16'hb2b5) (equals) <br />
+        (16'hf23a) (minus) (16'hb2b5) (equals)
 
 you'll see the result, 16'hb2b5, displayed. <br />
 ## Step 0: Prelab <br />
