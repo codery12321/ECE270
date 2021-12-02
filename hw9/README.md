@@ -11,7 +11,8 @@ The end result will allow you to reset the state machine back to the 000 state w
 Hey, this would have been very useful for generating the answers to the last few questions. Agreed! It's not too late to check your work! When you're done, copy and paste only the ring8 module into the box below. <br />
 
 ## Step 11: A sequence recognizer [20 points]
-Consider the [state machine](statemachine.png):
+Consider the [state machine](statemachine.png): <br />
+
 From the reset state (000), it will recognize values on 'S' clocked into the state machine. When one of them is recognized, it will activate the 'G' (green) signal and remain in that state regardless of further inputs until it is reset back to the start state. When a bad input is recognized, it will be forced into the error state where it will activate the 'R' (red) signal and remain in that state regardless of further inputs until it is reset back to the start state. <br />
 
 An example of "good" inputs are as follows: <br />
