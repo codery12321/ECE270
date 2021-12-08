@@ -41,7 +41,7 @@ module top (
           shift <= (shift << 1) | {16'b0, 1'b1};
     end
 
-  //STEP3 
+  //STEP3
   logic [3:0] count0;
   ssdec s0(.in(count0), .out(ss0[6:0]), .enable(1'b1));
   always_ff @ (posedge shift[16], posedge reset)
@@ -56,30 +56,24 @@ module top (
     if (count1 == 4'b1001)
       count1 <= 4'b0;
   end
-  else 
+  else
     count0 <= count0 + 4'b0001;
-    
-    
+
+
   //STEP4
   logic[3:0]count1;
   logic en;
 
   ssdec s1(.in(count1), .out(ss1[6:0]), .enable(en));
- /* always_ff @ (posedge reset)
-    if(reset)
-      en <= 1'b0;
-    else if (count0 == 4'b0)
-      en <= 1'b0;
-    else
-      en <= 1'b1;*/
+
 endmodule
 
 // Add more modules down here...
 module ssdec (input logic [3:0]in, output logic [6:0] out, input logic enable);
     logic [6:0] SEG7 [15:0];
-    
+
     assign SEG7[4'h0] = enable == 1 ? 7'b0111111: 7'b0000000;//012345
-    assign SEG7[4'h1] = enable == 1 ? 7'b0000110: 7'b0000000;//12 
+    assign SEG7[4'h1] = enable == 1 ? 7'b0000110: 7'b0000000;//12
     assign SEG7[4'h2] = enable == 1 ? 7'b1011011: 7'b0000000;//01346
     assign SEG7[4'h3] = enable == 1 ? 7'b1001111: 7'b0000000;//01236
     assign SEG7[4'h4] = enable == 1 ? 7'b1100110: 7'b0000000;//1256
