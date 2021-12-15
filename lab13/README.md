@@ -34,7 +34,7 @@ Start by creating a new module, alu, with the following format. <br />
 
       endmodule
 ```
-The [instructions to be implemented for the ALU](lab13_char.png) <br />
+The [instructions to be implemented for the ALU](lab13_chart.png) <br />
 
 You should not instantiate this module in the top module. It will be used by another module, embedded in the simulator, which you will instantiate later. Within the module, do the following: <br />
 
