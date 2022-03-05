@@ -2,14 +2,16 @@
 
 This lab is about implementing combinational building blocks. You will start by using the simulator to implement modules in SystemVerilog. Create a new workspace tab in the simulator called "lab6". Inside it, you will find a template.sv tab that contains a bare top module. Each new tab in the "lab6" workspace will create files named "newfile1.sv", "newfile2.sv", etc. You may use these names if you want to, but it would be better to rename them to something meaningful by pressing <shift>-mouse on the name. For instance, you might rename "template.sv" to "step1.sv". <br />
 
-It is possible to put modules in two or more files of a workspace. When the simulator is in the "Workspace Simulation" mode, it combines the modules of all files together. In this experiment, however, we will treat each file separately, so be sure to switch from "Workspace Simulation" to "File Simulation". If you don't, you will see the warning message "ERROR Re-definition of module '\top'!" <br />
-
+It is possible to put modules in two or more files of a workspace. When the simulator is in the "Workspace Simulation" mode, it combines the modules of all files together. In this experiment, however, we will treat each file separately, so be sure to switch from "Workspace Simulation" to "File Simulation". If you don't, you will see the warning message "ERROR Re-definition of module '\top'!"
+  
 Follow the instructions for each exercise below.
 
 ## Step 1: Implementing a 4-to-1 multiplexer in Verilog [10 points]
 
 Create a new file in the "lab6" workspace and rename it "step1.sv". In the top module, create an instance of a 4-to-1 multiplexer like so: <br />
-	`mux4to1 u1(.sel(pb[1:0]), .d(pb[7:4]), .y(green));` <br />
+```
+mux4to1 u1(.sel(pb[1:0]), .d(pb[7:4]), .y(green));
+```
 That is all you need to add to the top module. The goal of this exercise is to create a system that allows you to specify four values on buttons 7–4 and then select one of them with buttons 1 and 0. <br />
 
 Immediately below the top module, create a module named `mux4to1` with ports
@@ -31,12 +33,14 @@ sel[1]	sel[0]	green LED
 ```
 And you can see that sel[1:0] are the inputs and green is the output for an OR function. Changing d[3:0] to 0110 would implement an XOR function. Any two-variable Boolean expression can be implemented with a 4-to-1 mux. This is why multiplexers are used in an FPGA. The FPGA we use for this course is filled with 16-to-1 multiplexers that can naturally implement any 4-variable Boolean expression. These "logic cells" can be interconnected to form extremely complex designs. <br />
 
-When you have tested your design well, submit the file (including modules top and mux4to1) below. <br />
+When you have tested your design well, submit the file (including modules top and mux4to1) below.  
 
 ## Step 2: Implement a 16-to-4 basic encoder in Verilog [10 points]
 
-Create a SystemVerilog file in the "lab6" workspace of the simulator. Rename it "step2.sv". In the top module create a single instance: <br />
-	`enc16to4 u1(.in(pb[15:0]), .out(right[3:0]), .strobe(green));`  <br />
+Create a SystemVerilog file in the "lab6" workspace of the simulator. Rename it "step2.sv". In the top module create a single instance:  
+```
+enc16to4 u1(.in(pb[15:0]), .out(right[3:0]), .strobe(green));
+```
 Below the top module, create a new module named enc16to4 with the following ports (in any order you like):   
 - input logic [15:0] in
 - output logic [3:0] out
@@ -113,4 +117,4 @@ Once you have written the submodule and instantiated it in the top module with t
 
 Once that you have verified that your design is working for all combinations of pb[3:0], you can connect the input of your ssdec to the output of the priority encoder you wrote for your prelab (prienc16to4). Also connect the ssdec enable port to the strobe output of the decoder. (If you're confused about how to connect the ports of two separate instances, recall how to use an intermediate signal/bus to connect the ports). This will allow us to simply press one button (0 through F) to see the digit on the display. <br />
 
-Demonstrate your new ssdec module to your TA to get checked off. Show that pressing 0 shows 0 on ss0, 1 shows 1, 2 shows 2, and so on. <br />
+>Demonstrate your new ssdec module to your TA to get checked off. Show that pressing 0 shows 0 on ss0, 1 shows 1, 2 shows 2, and so on. <br />
