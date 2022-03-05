@@ -12,11 +12,12 @@ Create a new file in the "lab6" workspace and rename it "step1.sv". In the top m
 	`mux4to1 u1(.sel(pb[1:0]), .d(pb[7:4]), .y(green));` <br />
 That is all you need to add to the top module. The goal of this exercise is to create a system that allows you to specify four values on buttons 7–4 and then select one of them with buttons 1 and 0. <br />
 
-Immediately below the top module, create a module named mux4to1 with ports
+Immediately below the top module, create a module named `mux4to1` with ports
 - output logic y,
 - input logic [3:0]d,
 - input logic [1:0]sel,
-<br /> In it, implement a 4-to-1 multiplexer. Use the example on page 22 of lecture 2-J as an example. You will have four 'd' inputs instead of eight and two 'sel' inputs instead of three, but the principle is the same.
+
+In it, implement a 4-to-1 multiplexer. Use the example on page 22 of lecture 2-J as an example. You will have four 'd' inputs instead of eight and two 'sel' inputs instead of three, but the principle is the same.
 
 If you prefer, you may also implement this using structural instantiations using the diagram on page 7 of the same lecture. This is the circuit that you will be physically constructing and testing. Part of the goal of the exercise is to gradually convince you that expression of a design with dataflow syntax is easier than using structural syntax. A careful reading of the lecture notes will lead you to an even more succinct implementation of a multiplexer.
 
@@ -36,10 +37,11 @@ When you have tested your design well, submit the file (including modules top an
 
 Create a SystemVerilog file in the "lab6" workspace of the simulator. Rename it "step2.sv". In the top module create a single instance: <br />
 	`enc16to4 u1(.in(pb[15:0]), .out(right[3:0]), .strobe(green));`  <br />
-Below the top module, create a new module named enc16to4 with the following ports (in any order you like): <br />
+Below the top module, create a new module named enc16to4 with the following ports (in any order you like):   
 - input logic [15:0] in
 - output logic [3:0] out
 - output logic strobe
+
 Follow the pattern shown on pages 5–12 of lecture 2-i to build a basic encoder with sixteen inputs, four outputs, and a strobe output signal. When any single input is asserted, the strobe output should be asserted, and the binary encoding of the input. For instance, if in[5] is pressed, the strobe signal should be asserted, and the value of out[3:0] should be 4'b0101.  <br />
 
 A basic encoder has a deficiency that multiple input assertions will result in a composite output. For instance, if in[5] and in[9] were asserted at the same time, the out signal will be 4'b1101 (which is the bitwise 'OR' of 4'b0101 and 4'b1001). We specifically want to see this behavior in your design.  <br />
@@ -50,29 +52,30 @@ To implement this module, set it up so that: <br />
 - out[1] is 1 when any of in[15:14], in[11:10], in[7:6], in[3:2], are asserted
 - out[0] is 1 when any of the odd-numbered elements of in are asserted
 
+To test your design, press any of the push buttons from 'F' – '0'. You should see the binary-encoded result on the four rightmost red LEDs. When any of those sixteen buttons are pressed, the green center LED should also light up. In a later exercise, you will have a more intuitive way of testing your encoder.  
 
- <br />To test your design, press any of the push buttons from 'F' – '0'. You should see the binary-encoded result on the four rightmost red LEDs. When any of those sixteen buttons are pressed, the green center LED should also light up. In a later exercise, you will have a more intuitive way of testing your encoder. <br />
-
-When you have tested your design well, submit the file (including modules top and enc16to4) below. <br />
+When you have tested your design well, submit the file (including modules top and enc16to4) below.   
 
 ## Step 3: Implement a 16-to-4 priority encoder in Verilog [10 points]
 
 Create a SystemVerilog file in the "lab6" workspace of the simulator. Rename it "step3.sv". In the top module create a single instance: <br />
-	`prienc16to4 u1(.in(pb[15:0]), .out(right[3:0]), .strobe(green));`
-
-Below the top module, create a new module named prienc16to4 with the following ports (in any order you like): <br />
+```
+prienc16to4 u1(.in(pb[15:0]), .out(right[3:0]), .strobe(green));
+```  
+Below the top module, create a new module named prienc16to4 with the following ports (in any order you like):  
 - input logic [15:0] in
 - output logic [3:0] out
 - output logic strobe
-Follow the pattern shown on pages 13–21 of lecture 2-i to build a priority encoder with sixteen inputs, four outputs, and a strobe output signal. When any single input is asserted, the strobe output should be asserted, and the binary encoding of the input. For instance, if in[5] is pressed, the strobe signal should be asserted, and the value of out[3:0] should be 4'b0101. <br />
 
-A priority encoder overcomes the deficiency with multiple input assertions. For instance, if in[5] and in[9] were asserted at the same time, the out signal will be 4'b1001 since nine is greater than five. <br />
+Follow the pattern shown on pages 13–21 of lecture 2-i to build a priority encoder with sixteen inputs, four outputs, and a strobe output signal. When any single input is asserted, the strobe output should be asserted, and the binary encoding of the input. For instance, if in[5] is pressed, the strobe signal should be asserted, and the value of out[3:0] should be 4'b0101.  
 
-To implement this module, use the basic recipe shown on page 21 of lecture 2-i, and modify it to have a four-bit output. Be sure to use the port names listed above. <br />
+A priority encoder overcomes the deficiency with multiple input assertions. For instance, if in[5] and in[9] were asserted at the same time, the out signal will be 4'b1001 since nine is greater than five.  
 
-To test your design, press any of the push buttons from 'F' – '0'. You should see the binary-encoded result on the four rightmost red LEDs. When any of those sixteen buttons are pressed, the green center LED should also light up. If you press two or more buttons simultaneously, the higher value button will determine the value output from the encoder. In a later exercise, you will have a more intuitive way of testing your encoder. <br />
+To implement this module, use the basic recipe shown on page 21 of lecture 2-i, and modify it to have a four-bit output. Be sure to use the port names listed above.  
 
-When you have tested your design well, submit the file (including modules top and prienc16to4) below. <br />
+To test your design, press any of the push buttons from 'F' – '0'. You should see the binary-encoded result on the four rightmost red LEDs. When any of those sixteen buttons are pressed, the green center LED should also light up. If you press two or more buttons simultaneously, the higher value button will determine the value output from the encoder. In a later exercise, you will have a more intuitive way of testing your encoder.  
+
+When you have tested your design well, submit the file (including modules top and prienc16to4) below.   
 
 # ECE 270 Lab Experiment 6: Combinational Building Blocks
 ## Introduction
@@ -80,10 +83,9 @@ An important part of hardware design is to be able to encapsulate and reuse code
 
 ## Step 1: Implement a seven-segment decoder submodule in Verilog
 
-Run the ece270-setup command again by double-clicking the shortcut on your desktop. A lab06 folder should now be added to the ece270 folder in your home directory. Inside it, open top.sv, and write a new module below the top module with the following specifications: <br />
+Run the ece270-setup command again by double-clicking the shortcut on your desktop. A lab06 folder should now be added to the ece270 folder in your home directory. Inside it, open top.sv, and write a new module below the top module with the following specifications:
 
-From your prelab, copy the prienc16to4 module to your top.sv file, as you will use it to simplify testing for your ssdec module. <br />
-
+From your prelab, copy the prienc16to4 module to your top.sv file, as you will use it to simplify testing for your ssdec module.  
 - Module name: ssdec
 - Module instance name: sd
   - This is very important! The module and instance names must match!
@@ -96,8 +98,7 @@ From your prelab, copy the prienc16to4 module to your top.sv file, as you will u
   - enable: Connected to 1'b1
   - out: Connected to ss0[6:0]
 
-The module instance must start with:  <br />
-
+The module instance must start with:   
 `ssdec sd (...`
 
 Follow the development shown on pages 11–26 of lecture 2-H to build a seven-segment display decoder. This module has four data inputs and a 7-bit output. It configures the outputs so that a four bit binary value is displayed as a hexadecimal digit on a 7-segment display. The third port, enable, determines if any of the outputs are asserted. If enable is not asserted, the output should remain off. This is a convenient way to turn off the entire digit if needed. <br />
