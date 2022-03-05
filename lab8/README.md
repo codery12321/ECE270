@@ -1,20 +1,17 @@
 # Pre-Lab Submission 8
-
 This will be your last breadboard lab, and the largest one in terms of circuit construction. Do not put this lab off until the last minute.
 
-This lab is about implementing an arbitrary sequential state machine. The state machine you will build has three bits of state. This will be represented by three flip-flops that share the same clock. A reset signal will be connected to either the asynchronous preset or clear input of each flip-flop to force the state of the system to a particular three-bit value. For the actual lab experiment, you will use the following components:
-
-(2) 74HC74 dual D-type flip-flops with asynchronous preset and clear
-(2) 74HC151 8-to-1 multiplexers
-(1) 74HC138 3-to-8 decoder with active-low outputs
-(1) 74HC10 triple 3-input NAND gate
-(1) 74HC08 quad 2-input AND gate
-(1) 74HC14 hex Schmitt-trigger inverter
+This lab is about implementing an arbitrary sequential state machine. The state machine you will build has three bits of state. This will be represented by three flip-flops that share the same clock. A reset signal will be connected to either the asynchronous preset or clear input of each flip-flop to force the state of the system to a particular three-bit value. For the actual lab experiment, you will use the following components:  
+- (2) 74HC74 dual D-type flip-flops with asynchronous preset and clear
+- (2) 74HC151 8-to-1 multiplexers
+- (1) 74HC138 3-to-8 decoder with active-low outputs
+- (1) 74HC10 triple 3-input NAND gate
+- (1) 74HC08 quad 2-input AND gate
+- (1) 74HC14 hex Schmitt-trigger inverter
 
 For the prelab, you will model the work with Verilog.
 
-**Implementing the next-state logic**
-
+### Implementing the next-state logic  
 Recall the diagram of a Moore-model state Machine:
 ![the diagram of a Moore-model state Machine](moore.png).
 
