@@ -32,24 +32,24 @@ For each question, read carefully to understand the specified outcomes of clocks
 
 ## Step 1: A combinational block with Verilog case [10 points]
 
-Create a SystemVerilog module named map4 that accepts a 4-bit input named 'in' and produces a 4-bit output named 'out'. In this module, create an always_comb block containing a case statement. The case statement should create the following mapping between in and out:
-in	out  
-4'h0 	4'hb  
-4'h1	4'h3  
-4'h2	4'h7  
-4'h3	4'h8  
-4'h4	4'h1  
-4'h5	4'hf  
-4'h6	4'h0  
-4'h7	4'hd  
-4'h8	4'h2  
-4'h9	4'he   
-4'ha	4'h5  
-4'hb	4'h4  
-4'hc	4'h9  
-4'hd	4'ha  
-4'he	4'h6  
-4'hf	4'hc  
+Create a SystemVerilog module named map4 that accepts a 4-bit input named 'in' and produces a 4-bit output named 'out'. In this module, create an always_comb block containing a case statement. The case statement should create the following mapping between in and out:  
+in       out  
+4'h0     4'hb  
+4'h1     4'h3  
+4'h2     4'h7  
+4'h3     4'h8  
+4'h4     4'h1  
+4'h5     4'hf  
+4'h6     4'h0  
+4'h7     4'hd  
+4'h8     4'h2  
+4'h9     4'he   
+4'ha     4'h5  
+4'hb     4'h4  
+4'hc     4'h9  
+4'hd     4'ha  
+4'he     4'h6  
+4'hf     4'hc  
 
 The map4 module should be instantiated into a standard top module in the simulator like so:
 ```
@@ -193,4 +193,4 @@ For this problem, you will implement almost the same thing as problem 7.
       - On the rising edge of pb[19] (Z button) set shift to next_shift.
 Now, the display will be set to blank on reset, and new digits will be added on the right and move to the left when the 'Z' button is pressed.
 
-Test your code as you did before, and turn in only the `top` module below. 
+Test your code as you did before, and turn in only the `top` module below.
