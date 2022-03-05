@@ -4,9 +4,9 @@ This lab is about implementing functions using decoders. For the actual lab expe
 
 ### Implementing logic functions
 
-To implement logic functions, you must understand how a decoder works. Lecture 2-G should make clear that a decoder is a mechanism for taking a binary encoded input and making the corresponding output active. In the case of a 3-to-8 decoder, the 3-bit input code can have one of eight combinations. The number that the input represents causes the output number to be active. In this regard, the eight outputs can be thought of as the minterm number. For instance, if the input to a 3-to-8 decoder is 011, it represents the decimal number three. The output three represents minterm 3. If the inputs represent symbols X,Y, and Z, then a 011 input would represent the product term X'*Y*Z. Each output represents the AND of each relevant literal component. Output 3 represents the AND of X', Y, and Z.
+To implement logic functions, you must understand how a decoder works. Lecture 2-G should make clear that a decoder is a mechanism for taking a binary encoded input and making the corresponding output active. In the case of a 3-to-8 decoder, the 3-bit input code can have one of eight combinations. The number that the input represents causes the output number to be active. In this regard, the eight outputs can be thought of as the minterm number. For instance, if the input to a 3-to-8 decoder is 011, it represents the decimal number three. The output three represents minterm 3. If the inputs represent symbols X,Y, and Z, then a 011 input would represent the product term X'\*Y\*Z. Each output represents the AND of each relevant literal component. Output 3 represents the AND of X', Y, and Z.
 
-You know that a sum-of-products representation of a logic function is the OR of the constituent minterms. For example, the expression X'*Y*Z + X*Y'*Z + X*Y*Z corresponds to the logical sum of minterms 3, 5, and 7. A three-input OR gate connected to those outputs of the decoder would implement the function.
+You know that a sum-of-products representation of a logic function is the OR of the constituent minterms. For example, the expression X'\*Y\*Z + X\*Y'\*Z + X\*Y\*Z corresponds to the logical sum of minterms 3, 5, and 7. A three-input OR gate connected to those outputs of the decoder would implement the function.
 
 ### Decoders with active-low outputs
 
@@ -15,6 +15,7 @@ If an decoder with active-high outputs, as just described, whose outputs represe
 For the previous example, to implement X'\*Y\*Z + X\*Y'\*Z + X\*Y\*Z, we know that a 3-to-8 decoder with active-low outputs represents (X'\*Y\*Z)' with output 3, (X\*Y'\*Z)' with output 5, and (X\*Y\*Z)' with output 7. By using an enclosing NAND for all three terms, we get:
 
 `((X'*Y*Z)' * (X*Y'*Z)' * (X*Y*Z)' )'`
+
 Which, by DeMorgan's Law is equivalent to:
 	  `(X'*Y*Z)  + (X*Y'*Z)  + (X*Y*Z)`
 ### Implementing the complement of a function
