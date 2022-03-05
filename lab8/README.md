@@ -57,15 +57,15 @@ endmodule
 **Your next-state function, reset value and lookup table values**
 
 Just as with lab 5, you will implement a unique next-state block, reset value, and output logic for your design. Your next-state table is as follows:  
-q     next_q
-0     1
-1     4
-2     7
-3     6
-4     3
-5     2
-6     5
-7     0
+q     next_q  
+0     1  
+1     4  
+2     7  
+3     6  
+4     3  
+5     2  
+6     5  
+7     0  
 **Your reset value is 3.**  
 **Your first lookup table expression is X·Y·Z + X·Y·Z' + X·Y'·Z + X'·Y'·Z + X'·Y'·Z'.**  
 **Your second lookup table expression is X·Y'·Z' + X'·Y·Z + X'·Y'·Z'.**  
