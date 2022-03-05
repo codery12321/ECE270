@@ -114,7 +114,7 @@ Change the system you created in problem 4 to include an combinational output lo
 
 Even your work in problem 2 constituted a degenerate form of a Moore machine. The Output Logic was simply passed through, and the Next-State Logic was just an inverter with no inputs.   
 
-This time, create a second always_comb block with a case statement that implements the following mapping:
+This time, create a second always_comb block with a case statement that implements the following mapping:  
 state      outlog  
 4'h0      4'h2  
 4'h1      4'h7  
