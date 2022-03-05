@@ -33,7 +33,7 @@ For each question, read carefully to understand the specified outcomes of clocks
 ## Step 1: A combinational block with Verilog case [10 points]
 
 Create a SystemVerilog module named map4 that accepts a 4-bit input named 'in' and produces a 4-bit output named 'out'. In this module, create an always_comb block containing a case statement. The case statement should create the following mapping between in and out:  
-in       out  
+in         out  
 4'h0     4'hb  
 4'h1     4'h3  
 4'h2     4'h7  
@@ -115,23 +115,23 @@ Change the system you created in problem 4 to include an combinational output lo
 Even your work in problem 2 constituted a degenerate form of a Moore machine. The Output Logic was simply passed through, and the Next-State Logic was just an inverter with no inputs.   
 
 This time, create a second always_comb block with a case statement that implements the following mapping:
-state	outlog  
- 4'h0 	 4'h2  
-4'h1	4'h7  
-4'h2	4'h3  
-4'h3	4'h9  
-4'h4	4'hf  
-4'h5	4'hb  
-4'h6	4'he  
-4'h7	4'hd  
-4'h8	4'h4  
-4'h9	4'h6  
-4'ha	4'h8  
-4'hb	4'h0  
-4'hc	4'ha  
-4'hd	4'hc   
-4'he	4'h1  
-4'hf	4'h5  
+state      outlog  
+4'h0      4'h2  
+4'h1      4'h7  
+4'h2      4'h3  
+4'h3      4'h9  
+4'h4      4'hf  
+4'h5      4'hb  
+4'h6      4'he  
+4'h7      4'hd  
+4'h8      4'h4  
+4'h9      4'h6  
+4'ha      4'h8  
+4'hb      4'h0  
+4'hc      4'ha  
+4'hd      4'hc   
+4'he      4'h1  
+4'hf      4'h5  
 
 This new case statement does not replace the one you created in problem 1 and which you continue to use now to determine the next_state. Instead, the new case statement creates a new mapping between state and outlog.  
 
