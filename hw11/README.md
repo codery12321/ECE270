@@ -24,4 +24,4 @@ Display the computed flag values for the addition and subtraction operations: <b
 Just to clarify a few things: You do not need modules like 'synckey'. There are only four inputs: pb[7], pb[6], pb[5] and pb[4], and they clock the counters on the rising edge. You do not need to use clocked registers to hold the 8-bit sum, 8-bit difference, or the flag values. You may use any Verilog operator (like '+' or '-') to implement this design. Remember that you can use the built-in key combination 3-0-W to assert reset. <br />
 
 An example of pressing the '5' button 8 times followed by pressing the '7' button 9 times, and then resetting and pressing '4' and '6' a few times, should result in these patterns:
-[testcases](hw11_step26.png)
+![testcases](hw11_step26.png)
