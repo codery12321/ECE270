@@ -15,8 +15,8 @@ For the prelab, you will model the work with Verilog.
 
 **Implementing the next-state logic**
 
-Recall [the diagram of a Moore-model state Machine](moore.png).
-
+Recall the diagram of a Moore-model state Machine:
+![the diagram of a Moore-model state Machine](moore.png).
 
 For this lab, you will implement all three portions of the Moore model - the next-state logic, state machine, and output logic. The next-state will depend only on the three bits of the current state. An easy way to implement a three-variable logic function is to use a 3-to-8 decoder. When the decoder has active-low outputs, the inverted minterms can be summed with NAND gates. This is very similar to what you did for lab 5 when you implemented eight unique logic functions.
 
@@ -56,25 +56,19 @@ endmodule
 ```
 **Your next-state function, reset value and lookup table values**
 
-Just as with lab 5, you will implement a unique next-state block, reset value, and output logic for your design. Your next-state table is as follows:
-
-
-
-   q   	next_q
-0	1
-1	4
-2	7
-3	6
-4	3
-5	2
-6	5
-7	0
-
-**Your reset value is 3.**
-
-**Your first lookup table expression is X·Y·Z + X·Y·Z' + X·Y'·Z + X'·Y'·Z + X'·Y'·Z'.**
-
-**Your second lookup table expression is X·Y'·Z' + X'·Y·Z + X'·Y'·Z'.**
+Just as with lab 5, you will implement a unique next-state block, reset value, and output logic for your design. Your next-state table is as follows:  
+q     next_q
+0     1
+1     4
+2     7
+3     6
+4     3
+5     2
+6     5
+7     0
+**Your reset value is 3.**  
+**Your first lookup table expression is X·Y·Z + X·Y·Z' + X·Y'·Z + X'·Y'·Z + X'·Y'·Z'.**  
+**Your second lookup table expression is X·Y'·Z' + X'·Y·Z + X'·Y'·Z'.**  
 
 Test your system. Ensure that holding down the '1' button immediately forces the 'q' state to the reset value shown above, and the output logic selects the corresponding bits from both the lookup tables. As long as the '1' button is pressed, 'q' should remain set to the reset value regardless of the activity on the clock. When the '1' button is released, each press of the '0' button should immediately cause 'q' to change to 'next_q'. Pressing the '0' button eight times will follow one full cycle of the state back to the starting value.
 
@@ -82,13 +76,15 @@ Test your system. Ensure that holding down the '1' button immediately forces the
 ## Step 1: Implement the next-state equations [6 points]
 
 Normally, you would write next-state logic by creating an always_comb block to hold a case statement that sets up the mapping from inputs to outputs. This prelab is meant to get you ready to understand and wire a circuit that you can test in the real world. Fill in the Verilog dataflow elements for the next_q Let's get started by writing the equations, using Verilog dataflow syntax, for each of your next_q elements, in terms of the p bus elements. For instance, if you wanted set next_q[0] to 1 whenever the q[2:0] is 0, 1, 2, or 3, you would say something like this:
-
-        `assign next_q[0] = ~( p[0] & p[1] & p[2] & p[3] );`
-
+```
+assign next_q[0] = ~( p[0] & p[1] & p[2] & p[3] );
+```
 The table you fill out below will enable you to easily wire the circuit.
+```
 assign next_q[0] = ~(p[4] & p[6] & p[2] &p[0]);
 assign next_q[1] = ~(p[4] & p[3] & p[5] &p[2]);
 assign next_q[2] = ~(p[3] & p[6] & p[2] &p[1]);
+```
 
 ## Step 2: [14 points]
 
