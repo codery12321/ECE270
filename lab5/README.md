@@ -12,9 +12,9 @@ You know that a sum-of-products representation of a logic function is the OR of 
 
 If an decoder with active-high outputs, as just described, whose outputs represent the AND of literal product elements, can be used with an OR gate to produce a sum-of-products expression, then we can use DeMorgan's Law to turn the AND-OR tree into a NAND-NAND tree. A decoder with inverted outputs can be thought of as a NAND of the literal product components. If another NAND is used to "sum" multiple outputs together, the result is the NAND-NAND equivalent of the sum-of-products expression.
 
-For the previous example, to implement X'*Y*Z + X*Y'*Z + X*Y*Z, we know that a 3-to-8 decoder with active-low outputs represents (X'*Y*Z)' with output 3, (X*Y'*Z)' with output 5, and (X*Y*Z)' with output 7. By using an enclosing NAND for all three terms, we get:
+For the previous example, to implement X'\*Y\*Z + X\*Y'\*Z + X\*Y\*Z, we know that a 3-to-8 decoder with active-low outputs represents (X'\*Y\*Z)' with output 3, (X\*Y'\*Z)' with output 5, and (X\*Y\*Z)' with output 7. By using an enclosing NAND for all three terms, we get:
 
-	`((X'*Y*Z)' * (X*Y'*Z)' * (X*Y*Z)' )' `
+`((X'*Y*Z)' * (X*Y'*Z)' * (X*Y*Z)' )'`
 Which, by DeMorgan's Law is equivalent to:
 	  `(X'*Y*Z)  + (X*Y'*Z)  + (X*Y*Z)`
 ### Implementing the complement of a function
