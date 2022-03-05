@@ -50,7 +50,6 @@ Copy and paste only the **counter4ar** module into the box below. There are no o
 
 ## Step 3: A counter with a synchronous reset
 Construct a four-bit counter module named "counter4sr" that has only a clock input named "clk", a four bit output named "out", and a synchronous reset named "sr". Create an instance of it in your top module with the following statements:
-
   ```
   logic clk;
   div100 d(.in(hz100), .reset(reset), .out(clk));
@@ -58,6 +57,7 @@ Construct a four-bit counter module named "counter4sr" that has only a clock inp
   counter4sr c(.out(count), .clk(clk), .sr(pb[18]));
   ssdec s0(.out(ss0[6:0]), .in(count), .enable(1));
   ```
+  
 Use the **div100** and **ssdec** modules as you did for the the previous questions. The ss0 digit should increment once per second from 0 up to F, and repeat starting with 0 again. The synchronous input, "sr", is connected to pb[18] (the 'Y' button). When the 'Y' button is pressed and held, the display will change to a '0' on the next rising edge of the clock.
 This is the nature of a synchronous reset. It waits for the rising edge of the clock to take effect. A synchronous reset is not part of the always_ff part of the counter. It is a modification of the purely combinational next-state logic. It is possible to implement this by creating more if - else constructs in the always_ff block, but it should not appear in the sensitivity list of the always_ff statement.
 
