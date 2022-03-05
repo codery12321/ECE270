@@ -3,19 +3,23 @@
 Construct a half-adder module. The module should be named ha. It should have two single-bit inputs named a and b. It should have two single-bit outputs named s (sum) and co (carry-out).
 
 You can instantiate and test the half-adder module with the following: <br />
-  `ha h1(.a(pb[0]), .b(pb[1]), .s(right[0]), .co(right[1]));`  
-  
-Include this module in the text box at the bottom of the page. <br />
+```
+ha h1(.a(pb[0]), .b(pb[1]), .s(right[0]), .co(right[1]));
+```
+Include this module in the text box at the bottom of the page.
 
 ## Step (2): A full adder built from two half-adders [2 points]
-Construct a full adder by instantiating two of the ha half-adder modules you designed for the previous step. You'll need to use an additional OR gate (use a dataflow OR expression) to create the carry-out of the full adder. <br />
-The full adder module should be named faha. It should have three input ports named a, b, and ci (carry-in). It should have two output ports named s (sum) and co. <br />
+Construct a full adder by instantiating two of the ha half-adder modules you designed for the previous step. You'll need to use an additional OR gate (use a dataflow OR expression) to create the carry-out of the full adder.  
+The full adder module should be named faha. It should have three input ports named a, b, and ci (carry-in). It should have two output ports named s (sum) and co.  
 
-You can instantiate and test the full-adder module with the following: <br />
-  `faha f1(.a(pb[0]), .b(pb[1]), .ci(pb[2]), .s(right[0]), .co(right[1]));` <br />
- <br /> Make sure that it satisfies the following truth table: <br />
+You can instantiate and test the full-adder module with the following:
 ```
-a   b   ci  co  s
+faha f1(.a(pb[0]), .b(pb[1]), .ci(pb[2]), .s(right[0]), .co(right[1]));
+```
+
+Make sure that it satisfies the following truth table:
+```
+a   b   ci      co  s
 0	0	0		0	0
 0	0	1		0	1
 0	1	0		0	1
@@ -31,22 +35,27 @@ Include this module in the text box at the bottom of the page.
 Construct a full adder by writing dataflow expressions for the outputs or by constructing a case statement for each combination of the inputs. Do not instantiate modules you designed for the previous steps.  <br />
 The full adder module should be named fa. It should have three input ports named a, b, and ci (carry-in). It should have two output ports named s (sum) and co.  <br />
 
-You can instantiate and test the full-adder module with the following: <br />
-  `fa f1(.a(pb[0]), .b(pb[1]), .ci(pb[2]), .s(right[0]), .co(right[1]));` <br />
-Make sure that it satisfies the truth table shown in the previous question.   <br />
-
-Include this module in the text box at the bottom of the page.  <br />
-## Step 4: A four-bit full adder [4 points]
-Construct a four-bit full adder by creating four instances of the fa module you made in the previous step.  <br />
-This four-bit full adder module should be named fa4. Inside of this module, you should create four instances of the fa module with the carry-out of each one connected to the carry-in of the next most significant adder. It should have two four-bit input ports named a and b, and a single-bit input named ci (carry-in). It should have a four-bit output port named s (sum) and a single bit output port named co (carry-out). <br />
-
-You can instantiate and test the full-adder module with the following: <br />
-  `fa4 f1(.a(pb[3:0]), .b(pb[7:4]), .ci(pb[19]), .s(right[3:0]), .co(right[4]));` <br />
-so that the '3'...'0' buttons represent a four-bit input operand, the '7'...'4' buttons represent the second four-bit input operand, and the 'Z' button is the carry-in. The right[3:0] show the sum, and the right[4] shows the carry-out.  <br />
-
-Try testcases such as the following: <br />
+You can instantiate and test the full-adder module with the following:
 ```
-a	    b	    ci co	s
+fa f1(.a(pb[0]), .b(pb[1]), .ci(pb[2]), .s(right[0]), .co(right[1]));
+```
+Make sure that it satisfies the truth table shown in the previous question.
+
+Include this module in the text box at the bottom of the page.
+
+## Step 4: A four-bit full adder [4 points]
+Construct a four-bit full adder by creating four instances of the fa module you made in the previous step.   
+This four-bit full adder module should be named fa4. Inside of this module, you should create four instances of the fa module with the carry-out of each one connected to the carry-in of the next most significant adder. It should have two four-bit input ports named a and b, and a single-bit input named ci (carry-in). It should have a four-bit output port named s (sum) and a single bit output port named co (carry-out).
+
+You can instantiate and test the full-adder module with the following:
+```
+fa4 f1(.a(pb[3:0]), .b(pb[7:4]), .ci(pb[19]), .s(right[3:0]), .co(right[4]));
+```
+so that the '3'...'0' buttons represent a four-bit input operand, the '7'...'4' buttons represent the second four-bit input operand, and the 'Z' button is the carry-in. The right[3:0] show the sum, and the right[4] shows the carry-out.
+
+Try testcases such as the following:
+```
+a	    b	    ci      co	s
 0000	0000	1		0	0001
 1111	0001	0		1	0000
 1111	1111	0		1	1110
@@ -60,34 +69,38 @@ Construct an eight-bit carry look-ahead adder by eight instances of the ha modul
 This eight-bit carry look-ahead adder module should be named cla8. It should have two eight-bit input ports named a and b, and a single-bit input named ci (carry-in). It should have an eight-bit output port named s (sum) and a single bit output port named co (carry-out).
 
 You can instantiate and test the adder module with the following: <br />
-`  cla8 cl1(.a(pb[7:0]), .b(pb[15:8]), .ci(pb[19]), .s(right[7:0]), .co(red));` <br />
-so that the '7'...'0' buttons represent a eight-bit input operand, the 'F'...'8' buttons represent the second eight-bit input operand, and the 'Z' button is the carry-in. The right[7:0] show the sum, and the center red LED shows the carry-out.  <br />
+```
+cla8 cl1(.a(pb[7:0]), .b(pb[15:8]), .ci(pb[19]), .s(right[7:0]), .co(red));
+```
+so that the '7'...'0' buttons represent a eight-bit input operand, the 'F'...'8' buttons represent the second eight-bit input operand, and the 'Z' button is the carry-in. The right[7:0] show the sum, and the center red LED shows the carry-out.  
 
-We'll let you come up with your own testcases, but test it well and include this module in the text box at the bottom of the page.  <br />
+We'll let you come up with your own testcases, but test it well and include this module in the text box at the bottom of the page.  
 
 ## Step 6: An eight-bit adder/subtracter [5 points]
-Construct an eight-bit adder/subtracter that instantiates the cla8 adder you constructed in the previous step. <br />
-This module should be named addsub8. It should have two eight-bit input ports named a and b, and a single-bit input named op to specify whether the operation is (0) addition of A+B or (1) subtraction of A-B. It should have an eight-bit output port named s (sum) and a single bit output port named co (carry-out). <br />
+Construct an eight-bit adder/subtracter that instantiates the cla8 adder you constructed in the previous step.   
+This module should be named `addsub8`. It should have two eight-bit input ports named a and b, and a single-bit input named op to specify whether the operation is (0) addition of A+B or (1) subtraction of A-B. It should have an eight-bit output port named s (sum) and a single bit output port named co (carry-out).
 
 You can instantiate and test this module with the following:
-  `addsub8 as1(.a(pb[7:0]), .b(pb[15:8]), .op(pb[18]), .s(right[7:0]), .co(red));` <br />
-so that the '7'...'0' buttons represent a eight-bit input operand, the 'F'...'8' buttons represent the second eight-bit input operand, and the 'Y' button specifies the operation. The right[7:0] show the sum, and the center red LED shows the carry-out.  <br />
-
-Here are some example testcases: <br />
 ```
-a	          b	      op	co	s
+addsub8 as1(.a(pb[7:0]), .b(pb[15:8]), .op(pb[18]), .s(right[7:0]), .co(red));
+```
+so that the '7'...'0' buttons represent a eight-bit input operand, the 'F'...'8' buttons represent the second eight-bit input operand, and the 'Y' button specifies the operation. The right[7:0] show the sum, and the center red LED shows the carry-out.  
+
+Here are some example testcases:
+```
+a	          b	        op	    co	   s
 00000000	00000000	1		1	00000000
 00000000	00000001	1		0	11111111
 00000000	00000011	1		0	11111101
 00000111	00000111	1		1	00000000
 ```
-Include this module in the text box at the bottom of the page.  <br />
+Include this module in the text box at the bottom of the page.
 
 ## Step 7: A single-digit BCD adder [5 points]
-Construct a single-digit (4-bit) BCD adder. This is just a four-bit binary adder with the correction circuit described in lecture module 4-D. <br />
-This module should be named bcdadd1. Inside this module, create an instance of the fa4 adder you constructed in a previous step. The module should have two four-bit input ports named a and b, and a single-bit input named ci (carry-in). It should have a four-bit output port named s (sum) and a single bit output port named co (carry-out). <br />
+Construct a single-digit (4-bit) BCD adder. This is just a four-bit binary adder with the correction circuit described in lecture module 4-D.   
+This module should be named bcdadd1. Inside this module, create an instance of the fa4 adder you constructed in a previous step. The module should have two four-bit input ports named a and b, and a single-bit input named ci (carry-in). It should have a four-bit output port named s (sum) and a single bit output port named co (carry-out).   
 
-You can instantiate and test this module with the following: <br />
+You can instantiate and test this module with the following:   
 ```
   logic co;
   logic [3:0] s;
@@ -97,15 +110,15 @@ You can instantiate and test this module with the following: <br />
   ssdec s5(.in(pb[7:4]), .out(ss5[6:0]), .enable(1));
   ssdec s7(.in(pb[3:0]), .out(ss7[6:0]), .enable(1));
 ```
-so that the '3'...'0' buttons represent a four-bit input operand, the '7'...'4' buttons represent the second four-bit input operand, and the 'Z' button specifies the carry-in. The ss7 and ss5 displays will show the input operands, and the ss1/ss0 combination will show the two-digit decimal sum.  <br />
+so that the '3'...'0' buttons represent a four-bit input operand, the '7'...'4' buttons represent the second four-bit input operand, and the 'Z' button specifies the carry-in. The ss7 and ss5 displays will show the input operands, and the ss1/ss0 combination will show the two-digit decimal sum.   
 
-Test it thoroughly to make sure it always indicates the decimal sum. Include this module in the text box at the bottom of the page.  <br />
+Test it thoroughly to make sure it always indicates the decimal sum. Include this module in the text box at the bottom of the page.  
 
 ## Step 8: A four-digit BCD adder [10 points]
-Construct an four-digit (16-bit) BCD adder. <br />
-This module should be named bcdadd4. Inside this module, create four instances of the bcdadd1 adder you constructed in the previous step. Chain the carry-out of each one to the carry-in of the next more significant single-digit BCD adder. The module should have two 16-bit input ports named a and b, and a single-bit input named ci (carry-in). It should have a 16-bit output port named s (sum) and a single bit output port named co (carry-out).  <br />
+Construct an four-digit (16-bit) BCD adder.
+This module should be named bcdadd4. Inside this module, create four instances of the bcdadd1 adder you constructed in the previous step. Chain the carry-out of each one to the carry-in of the next more significant single-digit BCD adder. The module should have two 16-bit input ports named a and b, and a single-bit input named ci (carry-in). It should have a 16-bit output port named s (sum) and a single bit output port named co (carry-out).  
 
-It's rather difficult to test something like this by pressing buttons. Instead, create successive iterations of static values in the top module instantiation. For instance, you can instantiate and test this module with the following: <br />
+It's rather difficult to test something like this by pressing buttons. Instead, create successive iterations of static values in the top module instantiation. For instance, you can instantiate and test this module with the following:  
 ```
   logic co;
   logic [15:0] s;
@@ -115,33 +128,34 @@ It's rather difficult to test something like this by pressing buttons. Instead, 
   ssdec s2(.in(s[11:8]),  .out(ss2[6:0]), .enable(1));
   ssdec s3(.in(s[15:12]), .out(ss3[6:0]), .enable(1));
 ```
-You should see the result 2345 on the seven-segment displays. If you change the inputs to 16'h9876 and 16'h3333, the output should show 3209, and the red LED will be illuminated to indicate carry-out. Be sure to try cases with the ci input port set to 1.  <br />
+You should see the result 2345 on the seven-segment displays. If you change the inputs to 16'h9876 and 16'h3333, the output should show 3209, and the red LED will be illuminated to indicate carry-out. Be sure to try cases with the ci input port set to 1.  
 
-Test it thoroughly to make sure it always indicates the decimal sum. Include this module in the text box at the bottom of the page.  <br />
+Test it thoroughly to make sure it always indicates the decimal sum. Include this module in the text box at the bottom of the page.   
 
 ## Step 9: A nine's-complement circuit [5 points]
 Construct a BCD nine's-complement circuit. This is a simple combinational module that accepts a four-bit BCD digit, x, and outputs the digit the value 9-x. You can implement it as a case statement.
-This module should be named bcd9comp1. It has one four-bit input in and one four-bit output out.  <br />
+This module should be named bcd9comp1. It has one four-bit input in and one four-bit output out.   
 
-You can instantiate and test this module with the following: <br />
+You can instantiate and test this module with the following:  
 ```
   logic [3:0] out;
   bcd9comp1 cmp1(.in(pb[3:0]), .out(out));
   ssdec s0(.in(pb[3:0]), .out(ss0[6:0]), .enable(1));
   ssdec s1(.in(out),     .out(ss1[6:0]), .enable(1));
 ```
-pb[3:0] accept a four-bit BCD digit that will be displayed on ss0. The nine's complement should be displayed on ss1. The sum of the digits displayed on ss0 and ss1 should always be 9. It does not matter what is displayed if the input value is greater than 9 (larger than a BCD number).  <br />
+pb[3:0] accept a four-bit BCD digit that will be displayed on ss0. The nine's complement should be displayed on ss1. The sum of the digits displayed on ss0 and ss1 should always be 9. It does not matter what is displayed if the input value is greater than 9 (larger than a BCD number).   
 
-Test it thoroughly, and include this module in the text box at the bottom of the page.  <br />
+Test it thoroughly, and include this module in the text box at the bottom of the page.   
+
 ## Step 10: A four-digit ten's-complement adder/subtracter [10 points]
-Construct an four-digit BCD ten's-complement adder/subtracter module. This is analogous to how you created the 4-bit binary adder/subtracter. With that module, you computed the one's-complement of the second operand to the adder and then added one to it by setting the carry-in of the adder. This was effectively equivalent to adding the two's-complement inverse to perform a subtraction.  <br />
+Construct an four-digit BCD ten's-complement adder/subtracter module. This is analogous to how you created the 4-bit binary adder/subtracter. With that module, you computed the one's-complement of the second operand to the adder and then added one to it by setting the carry-in of the adder. This was effectively equivalent to adding the two's-complement inverse to perform a subtraction.
 
-In this case, you're going to compute the nine's-complement of each BCD digit (using the bcd9comp1 module you just made), and selectively use that as the input to a four-digit BCD adder (bcdadd4) that you constructed earlier. When you carry one into the bcdadd4, you effectively add the ten's-complement inverse to perform a subtraction.  <br />
+In this case, you're going to compute the nine's-complement of each BCD digit (using the bcd9comp1 module you just made), and selectively use that as the input to a four-digit BCD adder (bcdadd4) that you constructed earlier. When you carry one into the bcdadd4, you effectively add the ten's-complement inverse to perform a subtraction.  
 
-Of course, the result will be a ten's-complement negative number, which will look very strange. We'll do a better job of displaying that in the lab. <br />
-This module should be named bcdaddsub4. It has two 16-bit inputs a and b. It has another one-bit input named op that indicates (0) addition of A+B or (1) subtraction of A-B. It has a 16-bit output named s (sum). There's no need to have a carry-out for this module.  <br />
+Of course, the result will be a ten's-complement negative number, which will look very strange. We'll do a better job of displaying that in the lab.  
+This module should be named bcdaddsub4. It has two 16-bit inputs a and b. It has another one-bit input named op that indicates (0) addition of A+B or (1) subtraction of A-B. It has a 16-bit output named s (sum). There's no need to have a carry-out for this module.   
 
-Once again, it's difficult to test this by pressing buttons. Instead, you can repeatedly instantiate and test this module with static operands: <br />
+Once again, it's difficult to test this by pressing buttons. Instead, you can repeatedly instantiate and test this module with static operands:  
 ```
   logic [15:0] s;
   bcdaddsub4 bas4(.a(16'h0000), .b(16'h0001), .op(1), .s(s));
@@ -150,7 +164,7 @@ Once again, it's difficult to test this by pressing buttons. Instead, you can re
   ssdec s2(.in(s[11:8]),  .out(ss2[6:0]), .enable(1));
   ssdec s3(.in(s[15:12]), .out(ss3[6:0]), .enable(1));
 ```
-For this example, the 7-segment displays should show 9999, which is the ten's complement way of saying -1.  <br />
+For this example, the 7-segment displays should show 9999, which is the ten's complement way of saying -1.  
 
 Test it thoroughly, and include this module in the text box at the bottom of the page.
 
@@ -158,30 +172,25 @@ You might also try incorporating some of these constructs into the calculator yo
 
 
 # ECE 270 Lab Experiment 12: Adders and the Lunar Lander
-
-This lab, and the next one, may be a bit of a time crunch, which is why we've tried to release it a bit earlier than usual. The time crunch is intended to get you used to the upcoming lab practical, where you will implement a specified Verilog design from scratch on the lab machines, with no access to course material, all within two hours. The implementation in this lab is very detailed, but it may not be the case for the lab practical.
+This lab, and the next one, may be a bit of a time crunch, which is why we've tried to release it a bit earlier than usual. The time crunch is intended to get you used to the upcoming lab practical, where you will implement a specified Verilog design from scratch on the lab machines, with no access to course material, all within two hours. The implementation in this lab is very detailed, but it may not be the case for the lab practical.  
 If you have been struggling with Verilog thus far, it would be a good idea to start early using the simulator. Make use of the time before your lab to understand the concepts you're implementing, and try to implement them without using code from the notes. We've tried to make the lab instructions applicable to both in-lab implementation and simulator implementation.
 Keep in mind that you still need to go to lab to get the entire design checked off by a TA on the lab FPGA.
 
 ## Introduction
+You have been tasked with the great responsibility of writing an arithmetic unit for a lander headed for the Moon! We will have you implement adder/subtractor modules in order to realize an arithmetic logic unit for this lander. This unit, unlike the regular one that's in most CPUs, will be used to calculate the altitude, vertical velocity, and fuel of such a lander probe.  
 
-You have been tasked with the great responsibility of writing an arithmetic unit for a lander headed for the Moon! We will have you implement adder/subtractor modules in order to realize an arithmetic logic unit for this lander. This unit, unlike the regular one that's in most CPUs, will be used to calculate the altitude, vertical velocity, and fuel of such a lander probe. <br />
-
-For the context of this experiment, we will make the following simplifying assumptions: <br />
-
-- The lander starts at some height over the Moon, and the gravity of the Moon, at 5 ft/s2, will cause the lander to start falling towards the ground.
-- The force of gravity is counteracted by the lander's thrust setting, which can be set anywhere between 0 to 9 ft/s2. As a result, you could turn off the thrusters to free fall towards the Moon (0 ft/s2), or engage them at highest thrust (9 ft/s2).
-- Your lander will either crash or land. It will crash if the downward lander velocity is larger than 30 ft/s or the thrust is higher than 5 - otherwise, it will land.
+For the context of this experiment, we will make the following simplifying assumptions:
+- The lander starts at some height over the Moon, and the gravity of the Moon, at 5 ft/s2, will cause the lander to start falling towards the ground.  
+- The force of gravity is counteracted by the lander's thrust setting, which can be set anywhere between 0 to 9 ft/s2. As a result, you could turn off the thrusters to free fall towards the Moon (0 ft/s2), or engage them at highest thrust (9 ft/s2).  
+- Your lander will either crash or land. It will crash if the downward lander velocity is larger than 30 ft/s or the thrust is higher than 5 - otherwise, it will land.  
 
 ## Step 0: Prelab
-
 - Read the notes for module 4-A to 4-D.
 - Read the entire lab document.
 - Do the prelab assignment on the course web page.
 >If you cannot implement the full lab by the end of your lab section, you may still receive partial credit by showing the code you've written to your TA. Credit will be awarded based on how much functionality was implemented versus what was expected.
 
 ## Step 1: Implementing the Lunar Lander
-
 Run the ece270-setup script to get the necessary files. **Make sure to run this command for every day that you're working in the lab in order to get patches that may be issued to the Verilog make build system.**
 
 If you're on the simulator, copy the provided top.sv file into a new workspace, and enable File Simulation. You'll do most of your work in the lunarlander module, so start there!
@@ -189,41 +198,37 @@ If you're on the simulator, copy the provided top.sv file into a new workspace, 
 The substeps below cannot be tested individually since the entire design is tightly integrated. As a result, you'll need to actually finish all the substeps before simulating. Take extra care to follow the instructions, and try to look ahead to potential problems as you're following them - it could be that you have to define extra signals or buses not mentioned in the instructions. These unexpected situations may arise as you're writing code during a lab practical, and you should know how to fix them when they occur.
 
 ## 1.1 Use your bcdaddsub4 module to calculate landing parameters
-
-You will implement the following equations using your bcdaddsub4 module from the prelab.
+You will implement the following equations using your `bcdaddsub4` module from the prelab.
 ```
 alt* = alt + vel
 vel* = vel - gravity + thrust
 fuel* = fuel - thrust
 ```
-quantity* is meant to imply that this is the next-state register for the corresponding quantity, eg. fuel* is the next value of fuel that will be set in fuel on the next rising edge of the clock. Keep in mind that you cannot use asterisks as signal/bus names, so you'll need to give these proper names in code! <br />
+quantity\* is meant to imply that this is the next-state register for the corresponding quantity, eg. fuel* is the next value of fuel that will be set in fuel on the next rising edge of the clock. Keep in mind that you cannot use asterisks as signal/bus names, so you'll need to give these proper names in code!  
 
 Make sure to first review the top.sv file to understand the layout of the code that you'll be writing. Then, in the lunarlander module, create eight buses - each one 16 bits long - for alt, vel, fuel and thrust, to store the current values, and newalt, newvel, newfuel and manualthrust, the first three of which will store the result of bcdaddsub4 modules to calculate the new altitude, velocity and fuel, and the fourth to store the value that you may input using the pushbuttons to change the thrust from 0 to 9. <br />
 
-Next, insert the bcdaddsub4 module from your prelab (and any other relevant modules you may need), and make four instantiations within the corresponding section of the lunarlander module, with the connections as follows: <br />
-
-- For the first instantiation, you will determine the new value of altitude based on the equation. Therefore the a input will be your current altitude, the b input will be your current velocity, op will be 1'b0, and the s output will be the new altitude.
-- For the second and third instantiations, you will determine the new velocity based on the equation. Use two instantiations to break down the new velocity equation such that you calculate vel - GRAVITY with the first instance, connect its sum to a new intermediate 16-bit bus (call it intval), and in the second instance, perform the calculation intval + thrust and connect the sum to the new velocity bus. Keep in mind that op should be 1'b1 for subtractions.
+Next, insert the bcdaddsub4 module from your prelab (and any other relevant modules you may need), and make four instantiations within the corresponding section of the lunarlander module, with the connections as follows:
+- For the first instantiation, you will determine the new value of altitude based on the equation. Therefore the a input will be your current altitude, the b input will be your current velocity, op will be 1'b0, and the s output will be the new altitude.  
+- For the second and third instantiations, you will determine the new velocity based on the equation. Use two instantiations to break down the new velocity equation such that you calculate vel  
+- GRAVITY with the first instance, connect its sum to a new intermediate 16-bit bus (call it intval), and in the second instance, perform the calculation intval + thrust and connect the sum to the new velocity bus. Keep in mind that op should be 1'b1 for subtractions.  
 - For the fourth instantiation, calculate the new fuel by setting up the ports such that the instance does newfuel = fuel - thrust.
 
 ## 1.2 Set up a modifiable thrust register
+For this part, you'll need the **scankey** module from a previous lab.  
 
-For this part, you'll need the **scankey** module from a previous lab. <br />
+In the comment section marked 1.2, create a clocked register in an always_ff block that sets manualthrust to the value of the currently pressed button, but only if the button pressed is 0-9 (you should understand how to use the scankey module to do this, given that in is the pushbutton input, and you should produce a 5-bit out and delayed strobe). Use hz100 and rst as the clock and async reset for scankey, and for the always_ff setting manualthrust, set the scankey's strobe as the clock, and the usual rst as the async reset. If rst is asserted, set manualthrust to the constant THRUST.  
 
-In the comment section marked 1.2, create a clocked register in an always_ff block that sets manualthrust to the value of the currently pressed button, but only if the button pressed is 0-9 (you should understand how to use the scankey module to do this, given that in is the pushbutton input, and you should produce a 5-bit out and delayed strobe). Use hz100 and rst as the clock and async reset for scankey, and for the always_ff setting manualthrust, set the scankey's strobe as the clock, and the usual rst as the async reset. If rst is asserted, set manualthrust to the constant THRUST. <br />
-
-The behavior should be such that when you press a button 0-9, the corresponding binary value should be stored into manualthrust. Note that manualthrust is a 16-bit register, so you may need to pad the 4-bit scankey output with zeroes. (We say 4-bit since there is no use for the fifth bit of the scankey output, out[4], since we will only use buttons 0-9 for setting the thrust in this step.) <br />
+The behavior should be such that when you press a button 0-9, the corresponding binary value should be stored into manualthrust. Note that manualthrust is a 16-bit register, so you may need to pad the 4-bit scankey output with zeroes. (We say 4-bit since there is no use for the fifth bit of the scankey output, out[4], since we will only use buttons 0-9 for setting the thrust in this step.)
 
 ## 1.3 Set up the state machine logic for the lander
-
-We've now come to the bulk of the code - the state machine that will be used for the lander. Create an enum datatype to define the states of this machine as follows: <br />
+We've now come to the bulk of the code - the state machine that will be used for the lander. Create an enum datatype to define the states of this machine as follows:
 ```
       typedef enum logic [2:0] {INIT=0, CALC=1, SET=2, CHK=3, HLT=4} flight_t;
       logic [2:0] flight;
       logic nland, ncrash;
 ```    
-Set up an always_ff block with clk and rst as clock and asynchronous reset, and have it do the following:  <br />
-
+Set up an always_ff block with clk and rst as clock and asynchronous reset, and have it do the following:
 - If rst is high:
   - Initialize flight to INIT.
   - Initialize the crash and land outputs, and their next-state signals ncrash and nland, to 0.
@@ -262,8 +267,7 @@ For this portion, you'll need to copy over the display_32_bit and ssdec modules 
         lookupmsg[3] = 24'b011110000111011001010000;  // thrust
       end
 ```    
-This block sets up the ss7-ss5 displays to show "ALT", "VEL", "GAS" (for fuel) and "THR" (for thrust). You'll modify this block to add a case statement that checks the value of sel, and do the following: <br />
-
+This block sets up the ss7-ss5 displays to show "ALT", "VEL", "GAS" (for fuel) and "THR" (for thrust). You'll modify this block to add a case statement that checks the value of sel, and do the following:
 - If sel is 0, set val to alt.
 - If sel is 1, set val to vel.
 - If sel is 2, set val to fuel.
@@ -279,10 +283,9 @@ Instantiate bcdaddsub4 one more time to perform this negation. Plug in 0 to the 
 
 To do this, create two 64-bit buses called valdisp and negvaldisp and a new 16-bit bus called negval. Create two instances of display_32_bit - connect {16'b0, val} and {16'b0, negval} to the instance in ports, and valdisp and negvaldisp to the instance out ports. (Keep in mind that val and negval go to different instances!) <br />
 
-Next, create a new always_comb block, and in it, assign ss accordingly: <br />
-
-- If val is negative (val[15] is 1), connect ss to `{lookupmsg[sel], 8'b0, 8'b01000000, negvaldisp[23:0]}.` Note the inclusion of 8'b01000000 - this is your minus sign, on the G segment of ss3!
-- Otherwise, connect ss to `{lookupmsg[sel], 8'b0, valdisp[31:0]}.` <br />
+Next, create a new always_comb block, and in it, assign ss accordingly:
+- If val is negative (val[15] is 1), connect ss to `{lookupmsg[sel], 8'b0, 8'b01000000, negvaldisp[23:0]}.` Note the inclusion of 8'b01000000 - this is your minus sign, on the G segment of ss3!  
+- Otherwise, connect ss to `{lookupmsg[sel], 8'b0, valdisp[31:0]}.`  
 
 Finally, create an always_ff block clocked by scankey's strobe, and reset by rst. If rst is high, set sel to 0, otherwise:
 - If scankey's output is 5'b10000 (W is pressed), set sel to 3. (Pressing W should display thrust.)
@@ -291,7 +294,6 @@ Finally, create an always_ff block clocked by scankey's strobe, and reset by rst
 - If scankey's output is 5'b10011 (Z is pressed), set sel to 0. (Pressing Z should display alt.)
 
 ## 1.5 Instantiate the Lunar Lander and set up a slower clock
-
 We're nearing the end! <br />
 
 The lunarlander module, if clocked at 100 Hz, will probably run too fast for you to properly read the altitude/velocity/fuel values as they update on every loop through the state machine. Thus, we actually allow for two clock ports in the module - one for the regular 100 Hz hz100 clock in the top module, and a clock divided from hz100 that the module will use to simulate the landing by cycling through the FSM. We use the slower clock to allow for easier viewing of lander parameters as they update, and use the hz100 clock for the scankey module so you can update the thrust. <br />
@@ -300,7 +302,7 @@ Note that when you actually run your design and try to change the thrust, it wil
 
 Using knowledge from previous labs, implement a slower clock in the top module, and connect it to a new logic signal, hzX. The frequency is up to you - keep in mind that you don't want it too fast that you can't read the values as they update, and you don't want it too slow that you and your TA end up awkwardly watching the board waiting for the lander to land. We used 4 Hz. <br />
 
-Then, instantiate the lunar lander module as follows: <br />
+Then, instantiate the lunar lander module as follows:
 ```
       lunarlander #(16'h800, 16'h4500, 16'h0, 16'h5) ll (
         .hz100(hz100), .clk(hzX), .rst(reset), .in(pb[19:0]), .crash(red), .land(green),
@@ -308,9 +310,7 @@ Then, instantiate the lunar lander module as follows: <br />
       );
 ```    
 ## Step 2: Flash and demonstrate your design on the FPGA
-
-If you're directly using the instantiation above, your "lander" will do the following: <br />
-
+If you're directly using the instantiation above, your "lander" will do the following: 
 - It will appear 4500 feet above the moon, so your altitude will show 4500.
 - It will stay in the same exact spot, since thrust and gravity are set equal to each other at 5 ft/s2. Velocity was initialized to 0, so it'll stay that way until you change the thrust.
 - It will consume fuel (or gas on the display) at the rate of 5 units/clock cycle. The fuel should not run out, otherwise you will no longer be able to turn on your lander's thrusters!
